@@ -59,11 +59,11 @@ when 'ubuntu', 'debian'
 
 when "redhat", "centos", "fedora"
 
-  daq_rpm = "daq-#{node['daq']['rpm']['version']}.i386.rpm"
+  daq_rpm = "daq-#{node['snort']['rpm']['daq']['version']}.i386.rpm"
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{daq_rpm}" do
     source "http://www.snort.org/dl/snort-current/#{daq_rpm}"
-    checksum node['daq']['rpm']["checksum"]
+    checksum node['snort']['rpm']['daq']["checksum"]
     mode 0644
   end
 
@@ -71,11 +71,11 @@ when "redhat", "centos", "fedora"
     action :install
   end
 
-  snort_rpm = "snort-#{node['snort']['rpm']['version']}.i386.rpm"
+  snort_rpm = "snort-#{node['snort']['rpm']['snort']['version']}.i386.rpm"
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{snort_rpm}" do
     source "http://www.snort.org/dl/snort-current/#{snort_rpm}"
-    checksum node['snort']['rpm']["checksum"]
+    checksum node['snort']['rpm']['snort']["checksum"]
     mode 0644
   end
 
