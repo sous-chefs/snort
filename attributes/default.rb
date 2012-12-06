@@ -20,12 +20,18 @@
 case node['platform']
 when "ubuntu", "debian"
   default['snort']['home_net'] = "192.168.0.0/16"
-when "redhat","centos","fedora"
-  default['snort']['home_net'] = "any"
-  default['snort']['rpm']['version']                   = "2.9.0.3-1.F13"
-  default['snort']['rpm']['checksum_snort']            = "7625fba04aa7ff2053f91406fa9ad457868ba711097000ca051ba2e0a245a904"
-  default['snort']['rpm']['checksum_snort_mysql']      = "a2b5bf7f95994ccd1d59e97efba110ed2dcf97187f5db1c697bad20aaf8a2e90"
-  default['snort']['rpm']['checksum_snort_postgresql'] = "94c8143dfd8b76944d0602948718750a17198b0ac50e9d1a5960f4e85b7fb7a8"
+when "redhat","centos",
+  default['snort']['home_net']            = "any"
+  default['snort']['rpm']['daq_version']  = "2.0.0-1.centos6"
+  default['snort']['rpm']['daq_checksum'] = "5aea0ba8e131e97ee1524818417b4200203f7c29450295a8e14a5eb09fb366de"
+  default['snort']['rpm']['version']      = "2.9.4-1.centos6"
+  default['snort']['rpm']['checksum']     = "d2ec1631a5f9736f8f78729ed220cd035ddec9613622372ce223eb19e0b31909"
+when "fedora"
+  default['snort']['home_net']            = "any"
+  default['snort']['rpm']['daq_version']  = "2.0.0-1.f17"
+  default['snort']['rpm']['daq_checksum'] = "656ffa161c724a8bab8a184a67016b478e2d8b1c0c8f53452cb80f5572579c22"
+  default['snort']['rpm']['version']      = "2.9.4-1.f17"
+  default['snort']['rpm']['checksum']     = "d9ca716c19927e5be9f0057ca0d3157874ef3889171eaf075ab3bc2d16dd8fc1"
 else
   default['snort']['home_net'] = "any"
 end

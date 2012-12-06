@@ -59,24 +59,29 @@ when 'ubuntu', 'debian'
 
 when "redhat", "centos", "fedora"
 
-  snort_package = case node['snort']['database']
-                  when "none"
-                    "snort"
-                  when "mysql"
-                    "snort-mysql"
-                  when "postgresql","pgsql","postgres"
-                    "snort-postgresql"
-                  end
+  daq_rpm = "daq-#{node['snort']['rpm']['daq_version']}.i386.rpm"
 
-  snort_rpm = "#{snort_package}-#{node['snort']['rpm']['version']}.i386.rpm"
-
-  remote_file "#{Chef::Config[:file_cache_path]}/#{snort_rpm}" do
-    source "http://www.snort.org/dl/snort-current/#{snort_rpm}"
-    checksum node['snort']['rpm']["checksum_#{snort_package}"]
+  remote_file "#{Chef::Config[:file_cache_path]}/#{daq_rpm}" do
+    source "http://www.snort.org/dl/snort-current/#{daq_rpm}"
+    checksum node['snort']['rpm']['daq_checksum']
     mode 0644
   end
 
-  rpm_package "#{Chef::Config[:file_cache_path]}/#{snort_rpm}" do
+  yum_package "daq" do
+    source "#{Chef::Config[:file_cache_path]}/#{daq_rpm}"
+    action :install
+  end
+
+  snort_rpm = "snort-#{node['snort']['rpm']['version']}.i386.rpm"
+
+  remote_file "#{Chef::Config[:file_cache_path]}/#{snort_rpm}" do
+    source "http://www.snort.org/dl/snort-current/#{snort_rpm}"
+    checksum node['snort']['rpm']['checksum']
+    mode 0644
+  end
+
+  yum_package "snort" do
+    source "#{Chef::Config[:file_cache_path]}/#{snort_rpm}"
     action :install
   end
 end
