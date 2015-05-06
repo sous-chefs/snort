@@ -21,31 +21,31 @@ case node['platform']
 when 'ubuntu', 'debian'
 
   snort_package = case node['snort']['database']
-                  when "none"
-                    "snort"
-                  when "mysql"
-                    "snort-mysql"
-                  when "postgresql","pgsql","postgres"
-                    "snort-pgsql"
+                  when 'none'
+                    'snort'
+                  when 'mysql'
+                    'snort-mysql'
+                  when 'postgresql', 'pgsql', 'postgres'
+                    'snort-pgsql'
                   end
 
-  directory "/var/cache/local/preseeding" do
-    owner "root"
-    group "root"
+  directory '/var/cache/local/preseeding' do
+    owner 'root'
+    group 'root'
     mode 0755
     recursive true
   end
 
-  template "/var/cache/local/preseeding/snort.seed" do
-    source "snort.seed.erb"
-    owner "root"
-    group "root"
+  template '/var/cache/local/preseeding/snort.seed' do
+    source 'snort.seed.erb'
+    owner 'root'
+    group 'root'
     mode 0755
-    notifies :run, "execute[preseed snort]", :immediately
+    notifies :run, 'execute[preseed snort]', :immediately
   end
 
-  execute "preseed snort" do
-    command "debconf-set-selections /var/cache/local/preseeding/snort.seed"
+  execute 'preseed snort' do
+    command 'debconf-set-selections /var/cache/local/preseeding/snort.seed'
     action :nothing
   end
 
@@ -53,11 +53,11 @@ when 'ubuntu', 'debian'
     action :upgrade
   end
 
-  package "snort-rules-default" do
+  package 'snort-rules-default' do
     action :upgrade
   end
 
-when "redhat", "centos", "fedora"
+when 'redhat', 'centos', 'fedora'
 
   daq_rpm = "daq-#{node['snort']['rpm']['daq_version']}.i386.rpm"
 
@@ -67,7 +67,7 @@ when "redhat", "centos", "fedora"
     mode 0644
   end
 
-  yum_package "daq" do
+  yum_package 'daq' do
     source "#{Chef::Config[:file_cache_path]}/#{daq_rpm}"
     action :install
   end
@@ -80,7 +80,7 @@ when "redhat", "centos", "fedora"
     mode 0644
   end
 
-  yum_package "snort" do
+  yum_package 'snort' do
     source "#{Chef::Config[:file_cache_path]}/#{snort_rpm}"
     action :install
   end
