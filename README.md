@@ -10,9 +10,9 @@ Requirements
 
 ## Platform
 
-* Ubuntu 10.04, 12.04
+* Ubuntu 10.04+
 * RHEL/CentOS, 6.0 and higher only.
-* Fedora 17
+* Fedora 20+
 
 May work on other platforms in the Debian and RHEL families with or
 without modification.
