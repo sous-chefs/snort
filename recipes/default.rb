@@ -17,8 +17,8 @@
 # limitations under the License.
 #
 
-case node['platform']
-when 'ubuntu', 'debian'
+case node['platform_family']
+when 'debian'
 
   snort_package = case node['snort']['database']
                   when 'none'
@@ -57,7 +57,7 @@ when 'ubuntu', 'debian'
     action :upgrade
   end
 
-when 'redhat', 'centos', 'fedora'
+when 'rhel', 'fedora'
 
   daq_rpm = "daq-#{node['snort']['rpm']['daq_version']}.i386.rpm"
 

@@ -8,6 +8,6 @@ version          '0.10.1'
 
 recipe 'snort', 'Installs snort packages based on platform'
 
-%w(ubuntu debian redhat centos fedora).each do |os|
+%w(ubuntu debian redhat centos fedora scientific amazon oracle).each do |os|
   supports os
 end

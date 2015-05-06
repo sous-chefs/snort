@@ -17,10 +17,10 @@
 # limitations under the License.
 #
 
-case node['platform']
-when 'ubuntu', 'debian'
+case node['platform_family']
+when 'debian'
   default['snort']['home_net'] = '192.168.0.0/16'
-when 'redhat', 'centos',
+when 'rhel'
   default['snort']['home_net']            = 'any'
   default['snort']['rpm']['daq_version']  = '2.0.0-1.centos6'
   default['snort']['rpm']['daq_checksum'] = '5aea0ba8e131e97ee1524818417b4200203f7c29450295a8e14a5eb09fb366de'
