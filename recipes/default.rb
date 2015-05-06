@@ -59,10 +59,10 @@ when 'debian'
 
 when 'rhel', 'fedora'
 
-  daq_rpm = "daq-#{node['snort']['rpm']['daq_version']}.i386.rpm"
+  daq_rpm = "daq-#{node['snort']['rpm']['daq_version']}.x86_64.rpm"
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{daq_rpm}" do
-    source "http://www.snort.org/dl/snort-current/#{daq_rpm}"
+    source "https://www.snort.org/downloads/snort/#{daq_rpm}"
     checksum node['snort']['rpm']['daq_checksum']
     mode '0644'
   end
@@ -72,10 +72,10 @@ when 'rhel', 'fedora'
     action :install
   end
 
-  snort_rpm = "snort-#{node['snort']['rpm']['version']}.i386.rpm"
+  snort_rpm = "snort-#{node['snort']['rpm']['version']}.x86_64.rpm"
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{snort_rpm}" do
-    source "http://www.snort.org/dl/snort-current/#{snort_rpm}"
+    source "https://www.snort.org/downloads/snort/#{snort_rpm}"
     checksum node['snort']['rpm']['checksum']
     mode '0644'
   end
