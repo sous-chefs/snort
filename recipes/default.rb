@@ -50,11 +50,11 @@ when 'debian'
   end
 
   package snort_package do
-    action :upgrade
+    action :install
   end
 
   package 'snort-rules-default' do
-    action :upgrade
+    action :install
   end
 
 when 'rhel', 'fedora'
