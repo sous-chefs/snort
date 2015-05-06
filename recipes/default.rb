@@ -32,7 +32,7 @@ when 'debian'
   directory '/var/cache/local/preseeding' do
     owner 'root'
     group 'root'
-    mode 0755
+    mode '0755'
     recursive true
   end
 
@@ -40,7 +40,7 @@ when 'debian'
     source 'snort.seed.erb'
     owner 'root'
     group 'root'
-    mode 0755
+    mode '0755'
     notifies :run, 'execute[preseed snort]', :immediately
   end
 
@@ -64,7 +64,7 @@ when 'rhel', 'fedora'
   remote_file "#{Chef::Config[:file_cache_path]}/#{daq_rpm}" do
     source "http://www.snort.org/dl/snort-current/#{daq_rpm}"
     checksum node['snort']['rpm']['daq_checksum']
-    mode 0644
+    mode '0644'
   end
 
   yum_package 'daq' do
@@ -77,7 +77,7 @@ when 'rhel', 'fedora'
   remote_file "#{Chef::Config[:file_cache_path]}/#{snort_rpm}" do
     source "http://www.snort.org/dl/snort-current/#{snort_rpm}"
     checksum node['snort']['rpm']['checksum']
-    mode 0644
+    mode '0644'
   end
 
   yum_package 'snort' do
