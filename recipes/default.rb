@@ -2,7 +2,7 @@
 # Cookbook Name:: snort
 # Recipe:: default
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2010-2015, Chef Software, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,70 +17,70 @@
 # limitations under the License.
 #
 
-case node['platform']
-when 'ubuntu', 'debian'
+case node['platform_family']
+when 'debian'
 
   snort_package = case node['snort']['database']
-                  when "none"
-                    "snort"
-                  when "mysql"
-                    "snort-mysql"
-                  when "postgresql","pgsql","postgres"
-                    "snort-pgsql"
+                  when 'none'
+                    'snort'
+                  when 'mysql'
+                    'snort-mysql'
+                  when 'postgresql', 'pgsql', 'postgres'
+                    'snort-pgsql'
                   end
 
-  directory "/var/cache/local/preseeding" do
-    owner "root"
-    group "root"
-    mode 0755
+  directory '/var/cache/local/preseeding' do
+    owner 'root'
+    group 'root'
+    mode '0755'
     recursive true
   end
 
-  template "/var/cache/local/preseeding/snort.seed" do
-    source "snort.seed.erb"
-    owner "root"
-    group "root"
-    mode 0755
-    notifies :run, "execute[preseed snort]", :immediately
+  template '/var/cache/local/preseeding/snort.seed' do
+    source 'snort.seed.erb'
+    owner 'root'
+    group 'root'
+    mode '0755'
+    notifies :run, 'execute[preseed snort]', :immediately
   end
 
-  execute "preseed snort" do
-    command "debconf-set-selections /var/cache/local/preseeding/snort.seed"
+  execute 'preseed snort' do
+    command 'debconf-set-selections /var/cache/local/preseeding/snort.seed'
     action :nothing
   end
 
   package snort_package do
-    action :upgrade
+    action :install
   end
 
-  package "snort-rules-default" do
-    action :upgrade
+  package 'snort-rules-default' do
+    action :install
   end
 
-when "redhat", "centos", "fedora"
+when 'rhel', 'fedora'
 
-  daq_rpm = "daq-#{node['snort']['rpm']['daq_version']}.i386.rpm"
+  daq_rpm = "daq-#{node['snort']['rpm']['daq_version']}.x86_64.rpm"
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{daq_rpm}" do
-    source "http://www.snort.org/dl/snort-current/#{daq_rpm}"
+    source "https://www.snort.org/downloads/snort/#{daq_rpm}"
     checksum node['snort']['rpm']['daq_checksum']
-    mode 0644
+    mode '0644'
   end
 
-  yum_package "daq" do
+  yum_package 'daq' do
     source "#{Chef::Config[:file_cache_path]}/#{daq_rpm}"
     action :install
   end
 
-  snort_rpm = "snort-#{node['snort']['rpm']['version']}.i386.rpm"
+  snort_rpm = "snort-#{node['snort']['rpm']['version']}.x86_64.rpm"
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{snort_rpm}" do
-    source "http://www.snort.org/dl/snort-current/#{snort_rpm}"
+    source "https://www.snort.org/downloads/snort/#{snort_rpm}"
     checksum node['snort']['rpm']['checksum']
-    mode 0644
+    mode '0644'
   end
 
-  yum_package "snort" do
+  yum_package 'snort' do
     source "#{Chef::Config[:file_cache_path]}/#{snort_rpm}"
     action :install
   end

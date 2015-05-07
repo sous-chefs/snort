@@ -10,9 +10,9 @@ Requirements
 
 ## Platform
 
-* Ubuntu 10.04, 12.04
-* RHEL/CentOS, 6.0 and higher only.
-* Fedora 17
+* Ubuntu 10.04+
+* RHEL/CentOS, 7.0 and higher only.
+* Fedora 20+
 
 May work on other platforms in the Debian and RHEL families with or
 without modification.
@@ -96,7 +96,7 @@ License and Author
 ==================
 
 - Author: Joshua Timberman (<joshua@opscode.com>)
-- Copyright 2010-2012, Opscode, Inc (<legal@opscode.com>)
+- Copyright 2010-2015, Chef Software, Inc (<cookbooks@chef.io>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
