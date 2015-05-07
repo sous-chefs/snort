@@ -73,17 +73,9 @@ Future Plans
 ============
 
 The following features are planned for a future release of this
-cookbook. Contributions welcome, see
-[How to Contribute](http://wiki.opscode.com/display/chef/How+to+Contribute)
-
-Perform additional configuration of `/etc/snort/snort.conf` via
-template.
-
-Oinkmaster automatic rules updates.
-
-Source-based installation.
-
-Other platforms in general :).
+cookbook. Contributions welcome.
+- Source-based installation.
+- Other platforms in general :).
 
 References
 ==========
