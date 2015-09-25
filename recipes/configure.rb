@@ -17,6 +17,35 @@
 # limitations under the License.
 #
 
-include_recipe 'snort::install'
-include_recipe 'snort::configure'
-include_recipe 'snort::service'
+case node['platform_family']
+when 'debian'
+
+  template '/etc/default/snort' do
+    source 'default.snort.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+
+    notifies :restart, 'service[snort]', :delayed
+  end
+
+when 'rhel', 'fedora'
+
+  template '/etc/sysconfig/snort' do
+    source 'sysconfig.snort.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+
+    notifies :restart, 'service[snort]', :delayed
+  end
+end
+
+
+template '/etc/snort/snort.conf' do
+  source 'snort.conf.erb'
+  owner 'root'
+  group 'root'
+  mode  '0644'
+  notifies :restart, 'service[snort]', :delayed
+end

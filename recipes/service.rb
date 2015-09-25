@@ -17,6 +17,11 @@
 # limitations under the License.
 #
 
-include_recipe 'snort::install'
-include_recipe 'snort::configure'
-include_recipe 'snort::service'
+snort_service_name = node['snort']['service_name']
+
+service 'snort' do
+  service_name snort_service_name
+
+  supports [:start, :stop, :restart, :status]
+  action   [:enable, :start]
+end
