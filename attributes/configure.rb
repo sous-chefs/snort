@@ -20,7 +20,9 @@
 # These values go into /etc/sysconfig/snort on rhel/fedora systems
 # I think they go into /etc/default/snort on debian, but I'm not sure
 default['snort']['interface']           = %w(eth0)
-default['snort']['config']              = '/etc/snort/snort.conf'
+default['snort']['confdir']             = '/etc/snort'
+default['snort']['config']              = File.join(node['snort']['confdir'], 'snort.conf')
+default['snort']['rulesdir']            = File.join(node['snort']['confdir'], 'rules/')
 default['snort']['user']                = 'snort'
 default['snort']['group']               = 'snort'
 default['snort']['pass_first']          = false
