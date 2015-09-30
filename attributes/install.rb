@@ -38,3 +38,5 @@ else
 end
 
 default['snort']['database'] = 'none'
+default['snort']['registered_rules_url'] = 'https://www.snort.org/rules/snortrules-snapshot-2975.tar.gz'
+default['snort']['oinkcode'] = '32ee6a841cfc6951b392b8ad930b9ef758724fc3'
