@@ -33,8 +33,6 @@ when 'fedora'
   default['snort']['rpm']['daq_checksum'] = '698c31e5381d572e3b43c922e2471acdfe1027c0c545abdb7d0a5dd751198ffd'
   default['snort']['rpm']['version']      = '2.9.7.5-1.f21'
   default['snort']['rpm']['checksum']     = '021e8755edbfebd1fdfe5e61bfbf91055be052331a0b3e25f76be4fb816e51ad'
-else
-  default['snort']['home_net'] = 'any'
 end
 
 default['snort']['database'] = 'none'
