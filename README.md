@@ -69,6 +69,13 @@ On Ubuntu/Debian, the default rules package will be installed. You'll
 need to download and install additional rules. Automatically updating
 rules with oinkmaster is not yet supported. See future plans.
 
+On RHEL/Fedora, you have to manually download a ruleset (the free ones
+will do if you register). Otherwise, the templates will configure the
+defaults as provided by the Snort team upstream.
+
+See the various attributes/ files that line up with their recipes for setting
+values for your nodes.
+
 Future Plans
 ============
 

@@ -17,23 +17,6 @@
 # limitations under the License.
 #
 
-case node['platform_family']
-when 'debian'
-  default['snort']['home_net'] = '192.168.0.0/16'
-when 'rhel'
-  default['snort']['home_net']            = 'any'
-  default['snort']['rpm']['daq_version']  = '2.0.4.RH7'
-  default['snort']['rpm']['daq_checksum'] = 'ee12d9da5bf3367ec93221fadc7fb6ba7d7bebe1268ecce11d1a66612ada9e1d'
-  default['snort']['rpm']['version']      = '2.9.7.2-1.centos7'
-  default['snort']['rpm']['checksum']     = 'd84dbe9a3d7eeda702938c5f6658194fa2a971f54708e48f04bc8029fa94e0d7'
-when 'fedora'
-  default['snort']['home_net']            = 'any'
-  default['snort']['rpm']['daq_version']  = '2.0.4.F20'
-  default['snort']['rpm']['daq_checksum'] = 'f8d9d546cd7869431189e85dfce83e8e1281d2b816141c5b36ab100e0f0ff12d'
-  default['snort']['rpm']['version']      = '2.9.7.2-1.f20'
-  default['snort']['rpm']['checksum']     = '3fd6a72551eac1cf8a23915ff10d625b4380888ecdecc592e89efb335bc60ac2'
-else
-  default['snort']['home_net'] = 'any'
-end
-
-default['snort']['database'] = 'none'
+# There's nothing here. Since all the action happens in other recipes
+# besides snort::default directly, the attributes appear in the matching
+# file

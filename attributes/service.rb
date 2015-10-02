@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: snort
-# Recipe:: default
+# Attributes:: default
 #
 # Copyright 2010-2015, Chef Software, Inc
 #
@@ -17,9 +17,12 @@
 # limitations under the License.
 #
 
-include_recipe 'snort::install'
-if node['snort']['oinkcode'] != nil then
-  include_recipe 'snort::rules'
+# See conf.rb for setting of home_net and other vars
+case node['platform_family']
+when 'debian'
+  default['snort']['service_name']  = 'snort'
+when 'rhel', 'fedora'
+  default['snort']['service_name'] = 'snortd'
+else
+  default['snort']['service_name'] = 'snortd'
 end
-include_recipe 'snort::configure'
-include_recipe 'snort::service'

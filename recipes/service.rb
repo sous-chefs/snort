@@ -17,9 +17,11 @@
 # limitations under the License.
 #
 
-include_recipe 'snort::install'
-if node['snort']['oinkcode'] != nil then
-  include_recipe 'snort::rules'
+snort_service_name = node['snort']['service_name']
+
+service 'snort' do
+  service_name snort_service_name
+
+  supports [:start, :stop, :restart, :status]
+  action   [:enable, :start]
 end
-include_recipe 'snort::configure'
-include_recipe 'snort::service'

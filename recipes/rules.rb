@@ -17,9 +17,15 @@
 # limitations under the License.
 #
 
-include_recipe 'snort::install'
-if node['snort']['oinkcode'] != nil then
-  include_recipe 'snort::rules'
+remote_file "#{Chef::Config[:file_cache_path]}/snort_rules.tar.gz" do
+  source "#{node['snort']['registered_rules_url']}?oinkcode=#{node['snort']['oinkcode']}"
+  mode '0644'
 end
-include_recipe 'snort::configure'
-include_recipe 'snort::service'
+
+execute "extract snort registered rules" do
+  command "tar -xzf #{Chef::Config[:file_cache_path]}/snort_rules.tar.gz -C"\
+    " #{node['snort']['confdir']} rules"
+  not_if { ::File.exist?(
+    ::File.join(node['snort']['confdir'], 'rules', 'VRT-License.txt')
+  ) }
+end
