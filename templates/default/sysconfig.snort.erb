@@ -12,7 +12,7 @@
 # What interface should snort listen on?  [Pick only 1 of the next 3!]
 # This is -i {interface} on the command line
 # This is the snort.conf config interface: {interface} directive
-INTERFACE=<%= node['snort']['interface'].join(' ') %>
+INTERFACE="<%= node['snort']['interface'].join(' ') %>"
 #
 # The following two options are not directly supported on the command line
 # or in the conf file and assume the same Snort configuration for all
