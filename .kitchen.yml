@@ -5,24 +5,20 @@ provisioner:
   name: chef_zero
 
 platforms:
-  - name: ubuntu-14.04
-    run_list:
-    - recipe[apt::default]
-  - name: ubuntu-12.04
-    run_list:
-    - recipe[apt::default]
-  - name: ubuntu-10.04
-    run_list:
-    - recipe[apt::default]
+  - name: centos-6.7
+  - name: centos-7.1
   - name: debian-7.8
-    run_list:
     - recipe[apt::default]
-  - name: debian-6.0.10
-    run_list:
+
+  - name: debian-8.1
     - recipe[apt::default]
-  - name: centos-7.0
-  - name: fedora-20
   - name: fedora-21
+  - name: fedora-22
+  - name: ubuntu-12.04
+    - recipe[apt::default]
+
+  - name: ubuntu-14.04
+    - recipe[apt::default]
 
 suites:
  - name: default
