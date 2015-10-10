@@ -1,3 +1,7 @@
+snort Cookbook CHANGELOG
+========================
+This file is used to list changes made in each version of the snort cookbook.
+
 ## v1.0.0:
 * Updated to the latest Snort packages on RHEL / Fedora.  For RHEL the minimum supported release is now RHEL 7 due to Snort requirements
 * The default package action is now install and not upgrade to prevent service restarts on Chef runs
