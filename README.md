@@ -1,5 +1,5 @@
-Description
-===========
+snort Cookbook
+==============
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/snort.svg)](https://supermarket.chef.io/cookbooks/snort)
 
@@ -8,9 +8,8 @@ from apt are used. On RHEL and Fedora systems, the packages are
 retrieved directly from the SNORT project site.
 
 Requirements
-============
-
-## Platform
+------------
+#### Platforms
 
 * Ubuntu 10.04+
 * RHEL/CentOS, 7.0 and higher only.
@@ -19,11 +18,14 @@ Requirements
 May work on other platforms in the Debian and RHEL families with or
 without modification.
 
-## Cookbooks
+#### Chef
+* Chef 11+
+
+#### Cookbooks
 * None
 
 Attributes
-==========
+----------
 
 See `attributes/default.rb` for default values.
 
@@ -46,7 +48,7 @@ See `attributes/default.rb` for default values.
   snort rpm.
 
 Usage
-=====
+-----
 
 Include `recipe[snort]` in a run list to have the system get SNORT
 installed. This performs a baseline installation and preseeds the
@@ -62,7 +64,7 @@ need to download and install additional rules. Automatically updating
 rules with oinkmaster is not yet supported. See future plans.
 
 Future Plans
-============
+------------
 
 The following features are planned for a future release of this
 cookbook. Contributions welcome.
@@ -71,17 +73,19 @@ cookbook. Contributions welcome.
 - Additional platforms
 
 References
-==========
+----------
 
 * [SNORT home page](http://www.snort.org)
 * [snort -h doesn't do what you think](http://blog.joelesler.net/2010/03/snort-h-doesnt-do-what-you-think-it-does.html)
 * [SNORT database output is dead](http://blog.snort.org/2012/07/database-output-is-dead-rip.html)
 
-License and Author
-==================
+License & Authors
+-----------------
+
 
 - Author: Joshua Timberman (<joshua@chef.io>)
-- Copyright 2010-2015, Chef Software, Inc (<cookbooks@chef.io>)
+- Author: Tim Smith (<tsmith@chef.io>)
+- Copyright 2010-2015, Chef Software, Inc.
 
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
