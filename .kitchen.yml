@@ -8,16 +8,15 @@ platforms:
   - name: centos-6.7
   - name: centos-7.1
   - name: debian-7.8
-    - recipe[apt::default]
-
+    run_list: recipe[apt::default]
   - name: debian-8.1
-    - recipe[apt::default]
+    run_list: recipe[apt::default]
   - name: fedora-21
   - name: fedora-22
   - name: ubuntu-12.04
-    - recipe[apt::default]
+    run_list: recipe[apt::default]
   - name: ubuntu-14.04
-    - recipe[apt::default]
+    run_list: recipe[apt::default]
 
 suites:
  - name: default
