@@ -1,6 +1,8 @@
 Description
 ===========
 
+[![Cookbook Version](https://img.shields.io/cookbook/v/snort.svg)](https://supermarket.chef.io/cookbooks/snort)
+
 Installs the SNORT IDS daemon. On Debian/Ubuntu systems, the packages
 from apt are used. On RHEL and Fedora systems, the packages are
 retrieved directly from the SNORT project site.
