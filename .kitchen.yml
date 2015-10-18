@@ -16,7 +16,6 @@ platforms:
   - name: fedora-22
   - name: ubuntu-12.04
     - recipe[apt::default]
-
   - name: ubuntu-14.04
     - recipe[apt::default]
 
