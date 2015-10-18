@@ -13,5 +13,7 @@ recipe 'snort::_install', 'Installs snort packages based on platform'
   supports os
 end
 
+depends 'compat_resource'
+
 source_url 'https://github.com/jtimberman/snort-cookbook' if respond_to?(:source_url)
 issues_url 'https://github.com/jtimberman/snort-cookbook/issues' if respond_to?(:issues_url)

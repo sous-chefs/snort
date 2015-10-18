@@ -19,10 +19,10 @@ May work on other platforms in the Debian and RHEL families with or
 without modification.
 
 #### Chef
-* Chef 11+
+* Chef 12+
 
 #### Cookbooks
-* None
+* compat_resource to bring custom_resource functionality to chef-client < 12.5
 
 Attributes
 ----------
@@ -47,11 +47,32 @@ See `attributes/default.rb` for default values.
 * `node['snort']['rpm']['checksum']` - The SHA256 checksum of the
   snort rpm.
 
+Resources
+---------
+
+###snort_service
+
+#### Properties
+- service_name: To override the platform based service_name used to start/enable the service pass a string here
+
+#### Examples
+```
+snort_service 'snort' do
+  action :start
+end
+```
+
+```
+snort_service 'snort' do
+  action [:start, :enable]
+end
+```
+
 Usage
 -----
 
 Include `recipe[snort]` in a run list to have the system get SNORT
-installed. This performs a baseline installation and preseeds the
+installed and the service started. This performs a baseline installation and preseeds the
 package. You should change the `node['snort']['home_net']` attribute
 to the appropriate network.
 

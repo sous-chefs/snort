@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: snort
-# Recipe:: default
+# Recipe:: _install
 #
-# Copyright 2010-2015, Chef Software, Inc
+# Copyright 2015, Chef Software, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,5 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe 'snort::_install'
-include_recipe 'snort::_service'
+snort_service 'snort service' do
+  action [:start, :enable]
+end
