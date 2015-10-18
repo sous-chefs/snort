@@ -2,6 +2,19 @@ snort Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the snort cookbook.
 
+## v1.1.0:
+* Updated to the latest daq and snort packages for RHEL
+* Added Chefspecs for RHEL/Debian platforms
+* Moved all install logic into _install.rb recipe which is called by the default recipe. This changes nothing, but prepares things for adding more functionality at a later date.
+* Updated platforms in the Kitchen CI config
+* Added source_url and issues_url metadata for Supermarket
+* Updated Travis config to test via ChefDK and to use kitchen-docker for integration tests
+* Removed yum cookbook from the Berksfile since it wasn't needed
+* Removed the Contributing doc since it was from when this cookbook was managed by Chef Software Inc.
+* Added standard Chef development gems to the Gemfile
+* Removed references to database output from the Readme
+* Added a Rakefile for simplified testing
+
 ## v1.0.0:
 * Updated to the latest Snort packages on RHEL / Fedora.  For RHEL the minimum supported release is now RHEL 7 due to Snort requirements
 * The default package action is now install and not upgrade to prevent service restarts on Chef runs
