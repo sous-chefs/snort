@@ -18,13 +18,7 @@ May work on other platforms in the Debian and RHEL families with or
 without modification.
 
 ## Cookbooks
-
-No other cookbooks are dependencies, however to use one of the
-database backends, the appropriate cookbook should be used. For
-example, Opscode cookbooks:
-
-* mysql
-* postgresql
+* None
 
 Attributes
 ==========
@@ -48,10 +42,6 @@ See `attributes/default.rb` for default values.
   snort package to install, e.g., "`2.9.4-1.f17`".
 * `node['snort']['rpm']['checksum']` - The SHA256 checksum of the
   snort rpm.
-
-**NOTE** Upstream, the SNORT project has deprecated the database
-  output
-  [as of version 2.9.3](http://blog.snort.org/2012/07/database-output-is-dead-rip.html).
 
 Usage
 =====
@@ -87,7 +77,7 @@ References
 License and Author
 ==================
 
-- Author: Joshua Timberman (<joshua@opscode.com>)
+- Author: Joshua Timberman (<joshua@chef.io>)
 - Copyright 2010-2015, Chef Software, Inc (<cookbooks@chef.io>)
 
 ```
