@@ -12,7 +12,7 @@ Requirements
 
 * Ubuntu 10.04+
 * RHEL/CentOS, 7.0 and higher only.
-* Fedora 20+
+* Fedora 21+
 
 May work on other platforms in the Debian and RHEL families with or
 without modification.
