@@ -47,6 +47,20 @@ See `attributes/default.rb` for default values.
 * `node['snort']['rpm']['checksum']` - The SHA256 checksum of the
   snort rpm.
 
+
+Recipes
+-------
+
+####default.rb
+Includes the _install.rb and _service.rb recipes
+
+####_install.rb
+Installs the snort package from apt on Debian based systems, or RPMs downloaded from the snort.org site on RHEL based systems
+
+####_service.rb
+Used the snort_service custom resource to start and enable the snort service
+
+
 Resources
 ---------
 
