@@ -66,8 +66,9 @@ Future Plans
 
 The following features are planned for a future release of this
 cookbook. Contributions welcome.
-- Source-based installation.
-- Other platforms in general :).
+- Service management
+- Config management
+- Additional platforms
 
 References
 ==========
