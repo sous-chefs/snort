@@ -2,6 +2,9 @@ snort Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the snort cookbook.
 
+## v2.0.0
+* Added new snort_service custom resource and a _service.rb recipe. The recipe is called by the default.rb recipe. The custom resource can be used to write wrapper cookbooks and supports the standard service actions (enable, start, restart, reload).  The custom resource used the new Chef 12.5 customer resource format and the compat_resource cookbook for compatibility with 12.0+
+
 ## v1.1.0:
 * Updated to the latest daq and snort packages for RHEL
 * Added Chefspecs for RHEL/Debian platforms
