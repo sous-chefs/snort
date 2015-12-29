@@ -5,31 +5,31 @@ action :nothing do
 end
 
 action :start do
-    service svc_name do
-      supports status: true, restart: true
-      action :start
-    end
+  service svc_name do
+    supports status: true, restart: true
+    action :start
+  end
 end
 
 action :enable do
-    service svc_name do
-      supports status: true, restart: true
-      action :enable
-    end
+  service svc_name do
+    supports status: true, restart: true
+    action :enable
+  end
 end
 
 action :restart do
-    service svc_name do
-      supports status: true, restart: true
-      action :restart
-    end
+  service svc_name do
+    supports status: true, restart: true
+    action :restart
+  end
 end
 
 action :reload do
-    service svc_name do
-      supports status: true, restart: true
-      action :reload
-    end
+  service svc_name do
+    supports status: true, restart: true
+    action :reload
+  end
 end
 
 # Determine the service_name either by platform or via user override
