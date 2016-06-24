@@ -30,16 +30,12 @@ when 'debian'
                   end
 
   directory '/var/cache/local/preseeding' do
-    owner 'root'
-    group 'root'
     mode '0755'
     recursive true
   end
 
   template '/var/cache/local/preseeding/snort.seed' do
     source 'snort.seed.erb'
-    owner 'root'
-    group 'root'
     mode '0755'
     notifies :run, 'execute[preseed snort]', :immediately
   end
@@ -49,13 +45,9 @@ when 'debian'
     action :nothing
   end
 
-  package snort_package do
-    action :install
-  end
+  package snort_package
 
-  package 'snort-rules-default' do
-    action :install
-  end
+  package 'snort-rules-default'
 
 when 'rhel', 'fedora'
 

@@ -1,0 +1,6 @@
+description "Snort NIDS service"
+stop on runlevel [!2345]
+start on runlevel [2345]
+respawn
+respawn limit 10 5
+exec /usr/sbin/snort -q -u snort -g snort -c /etc/snort/snort.conf
