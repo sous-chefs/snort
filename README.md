@@ -12,8 +12,6 @@ Installs the SNORT IDS daemon. On Debian/Ubuntu systems, the packages from apt a
 - RHEL/CentOS, 7.0 and higher only.
 - Fedora
 
-May work on other platforms in the Debian and RHEL families with or without modification.
-
 ### Chef
 
 - Chef 12+
