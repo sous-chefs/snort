@@ -14,7 +14,7 @@ Installs the SNORT IDS daemon. On Debian/Ubuntu systems, the packages from apt a
 
 ### Chef
 
-- Chef 12+
+- Chef 12.1+
 
 ### Cookbooks
 
