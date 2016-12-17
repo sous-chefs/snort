@@ -1,15 +1,5 @@
-provides :snort_service, platform: 'fedora'
-
-provides :snort_service, platform: %w(redhat centos scientific oracle) do |node| # ~FC005
-  node['platform_version'].to_f >= 7.0
-end
-
-provides :snort_service, platform: 'debian' do |node|
-  node['platform_version'].to_i >= 8
-end
-
-provides :snort_service, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f >= 15.10
+provides :snort_service, os: 'linux' do |_node|
+  Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
 end
 
 property :service_name, String

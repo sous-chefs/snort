@@ -1,5 +1,6 @@
-provides :snort_service, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f < 15.10
+provides :snort_service, os: 'linux' do |_node|
+  Chef::Platform::ServiceHelpers.service_resource_providers.include?(:upstart) &&
+    !Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
 end
 
 property :service_name, String
