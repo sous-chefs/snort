@@ -20,8 +20,8 @@ describe 'snort::default' do
         expect(chef_run_debian).to create_template(snort_seed_template).with(
           source: 'snort.seed.erb',
           owner:  'root',
-          group: 'root',
-          mode:  '0755'
+          group:  'root',
+          mode:   '0755'
         )
       end
 

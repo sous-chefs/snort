@@ -49,7 +49,6 @@ end
 
 action_class.class_eval do
   def create_init
-
     template "/etc/systemd/system/#{svc_name}.service" do
       source 'init_systemd.erb'
       cookbook 'snort'
@@ -63,15 +62,14 @@ action_class.class_eval do
   end
 
   def cleanup_old_service
-    if ::File.exists?('/etc/init.d/snort')
-      service 'disable sys-v init snort' do
-        service_name svc_name
-        action [:stop, :disable]
-      end
+    return unless ::File.exist?('/etc/init.d/snort')
+    service 'disable sys-v init snort' do
+      service_name svc_name
+      action [:stop, :disable]
+    end
 
-      file '/etc/init.d/snort' do
-        action :delete
-      end
+    file '/etc/init.d/snort' do
+      action :delete
     end
   end
 
