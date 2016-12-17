@@ -1,6 +1,6 @@
 name             'snort'
-maintainer       'Joshua Timberman'
-maintainer_email 'cookbooks@housepub.org'
+maintainer       'Sous Chefs'
+maintainer_email 'helps@sous-chefs.org'
 license          'Apache 2.0'
 description      'Installs Snort IDS packages'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
@@ -15,5 +15,5 @@ end
 
 depends 'compat_resource', '>= 12.14.7'
 
-source_url 'https://github.com/jtimberman/snort-cookbook'
-issues_url 'https://github.com/jtimberman/snort-cookbook/issues'
+source_url 'https://github.com/sous-chefs/snort'
+issues_url 'https://github.com/sous-chefs/snort/issues'
