@@ -13,7 +13,7 @@ recipe 'snort::_install', 'Installs snort packages based on platform'
   supports os
 end
 
-depends 'compat_resource', '>= 12.14.7'
+depends 'compat_resource', '>= 12.16.3'
 
 source_url 'https://github.com/sous-chefs/snort'
 issues_url 'https://github.com/sous-chefs/snort/issues'
