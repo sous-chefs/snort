@@ -1,3 +1,4 @@
+provides :snort_service_systemd, os: 'linux'
 provides :snort_service, os: 'linux' do |_node|
   Chef::Platform::ServiceHelpers.service_resource_providers.include?(:upstart) &&
     !Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
