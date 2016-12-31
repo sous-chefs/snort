@@ -19,6 +19,7 @@ Installs the SNORT IDS daemon. On Debian/Ubuntu systems, the packages from apt a
 ### Cookbooks
 
 - compat_resource to bring custom_resource functionality to chef-client < 12.5
+- yum-epel for RHEL platforms
 
 ## Attributes
 

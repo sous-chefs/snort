@@ -51,6 +51,9 @@ when 'debian'
 
 when 'rhel', 'fedora'
 
+  # snort needs libnghttp2 from EPEL
+  include_recipe 'yum-epel::default' if platform_family?('rhel')
+
   daq_rpm = "daq-#{node['snort']['rpm']['daq_version']}.x86_64.rpm"
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{daq_rpm}" do

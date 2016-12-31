@@ -49,6 +49,10 @@ describe 'snort::default' do
     let(:daq_rpm)    { "daq-#{chef_run_rhel.node['snort']['rpm']['daq_version']}.x86_64.rpm" }
     let(:snort_rpm)  { "snort-#{chef_run_rhel.node['snort']['rpm']['version']}.x86_64.rpm" }
 
+    it 'includes EPEL' do
+      expect(chef_run_rhel).to include_recipe("yum-epel::default")
+    end
+
     it 'creates daq_rpm remote file' do
       expect(chef_run_rhel).to create_remote_file("#{Chef::Config[:file_cache_path]}/#{daq_rpm}").with(
         source:   "https://www.snort.org/downloads/snort/#{daq_rpm}",
