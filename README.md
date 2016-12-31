@@ -89,10 +89,8 @@ The following features are planned for a future release of this cookbook. Contri
 - [SNORT home page](http://www.snort.org)
 - [SNORT database output is dead](http://blog.snort.org/2012/07/database-output-is-dead-rip.html)
 
-## License & Authors
+## License
 
-- Author: Joshua Timberman ([joshua@chef.io](mailto:joshua@chef.io))
-- Author: Tim Smith ([tsmith@chef.io](mailto:tsmith@chef.io))
 - Copyright 2015-2016, Cozy Services Ltd.
 - Copyright 2010-2016, Chef Software, Inc.
 
