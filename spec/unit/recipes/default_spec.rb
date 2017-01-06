@@ -50,7 +50,7 @@ describe 'snort::default' do
     let(:snort_rpm)  { "snort-#{chef_run_rhel.node['snort']['rpm']['version']}.x86_64.rpm" }
 
     it 'includes EPEL' do
-      expect(chef_run_rhel).to include_recipe("yum-epel::default")
+      expect(chef_run_rhel).to include_recipe('yum-epel::default')
     end
 
     it 'creates daq_rpm remote file' do
