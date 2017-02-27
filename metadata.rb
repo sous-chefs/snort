@@ -13,7 +13,6 @@ recipe 'snort::_install', 'Installs snort packages based on platform'
   supports os
 end
 
-depends 'compat_resource', '>= 12.16.3'
 depends 'yum-epel'
 
 source_url 'https://github.com/sous-chefs/snort'

@@ -8,6 +8,7 @@ transport:
 
 provisioner:
   name: dokken
+  deprecations_as_errors: true
 
 verifier:
   name: inspec
@@ -102,4 +103,3 @@ suites:
  - name: default
    run_list:
    - recipe[snort::default]
-
