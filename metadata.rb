@@ -5,6 +5,7 @@ license          'Apache 2.0'
 description      'Installs Snort IDS packages'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '2.1.0'
+chef_version     '>= 12.5' if respond_to?(:chef_version)
 
 recipe 'snort::default', 'Includes the _install recipe'
 recipe 'snort::_install', 'Installs snort packages based on platform'
