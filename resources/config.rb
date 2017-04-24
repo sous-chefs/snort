@@ -1,3 +1,5 @@
+property :name, String, name_property: true
+property :service_name, String
 property :home_net, String,     default: 'any'
 property :external_net, String, default: 'any'
 
@@ -23,7 +25,6 @@ property :paf_max, String, default: '16000'
 property :dynamic_config, Hash, default: {
   'dynamicpreprocessor directory' => '/usr/lib64/snort-2.9.9.0_dynamicpreprocessor/',
   'dynamicengine' => '/usr/lib64/snort-2.9.9.0_dynamicengine/libsf_engine.so',
-  'dynamicdetection directory' => '/usr/lib/snort_dynamicrules',
 }
 property :output_config, Hash, default: { 'unified2' => 'filename merged.log, limit 128, nostamp, mpls_event_types, vlan_event_types' }
 property :preprocessor, [Array, Hash], default: [
@@ -61,8 +62,8 @@ action :create do
   template '/etc/snort/snort.conf' do
     cookbook 'snort'
     source 'snort.conf.erb'
-    owner root
-    group root
+    owner 'root'
+    group 'root'
     mode '0644'
     notifies :restart, "service[#{svc_name}]", :delayed
     variables(
@@ -70,5 +71,21 @@ action :create do
       external_net: new_resource.external_net
     )
     action :create
+  end
+end
+
+action_class.class_eval do
+  # Determine the service_name either by platform or via user override
+  def svc_name
+    if new_resource.service_name
+      new_resource.service_name
+    else
+      case node['platform_family']
+      when 'debian'
+        'snort'
+      else
+        'snortd'
+      end
+    end
   end
 end

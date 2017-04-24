@@ -6,9 +6,14 @@ snort_service 'snort service' do
   action :start
 end
 
-snort_rules 'community'
-
-snort_rules 'registered' do
-  oink_code node['oink_code']
-  tar_name 'snortrules-snapshot-2976.tar.gz'
+if node['platform_family'] == 'rhel'
+  snort_config 'hello' do
+  end
 end
+
+snort_rules 'community'
+#
+# snort_rules 'registered' do
+#   oink_code node['oink_code']
+#   tar_name 'snortrules-snapshot-2976.tar.gz'
+# end
