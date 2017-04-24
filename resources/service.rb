@@ -11,7 +11,6 @@ action :start do
   end
 end
 
-
 action :stop do
   service svc_name do
     supports status: true
@@ -50,7 +49,7 @@ end
 action_class.class_eval do
   def create_init
     if node['init_package'] == 'systemd'
-      
+
       execute 'Load systemd unit file' do
         command 'systemctl daemon-reload'
         action :nothing

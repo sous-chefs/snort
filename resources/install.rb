@@ -87,7 +87,7 @@ action :create do
       source "#{Chef::Config[:file_cache_path]}/#{daq_rpm}"
     end
 
-    snort_rpm = "snort-#{new_resource.rpm_version+package_suffix}.x86_64.rpm"
+    snort_rpm = "snort-#{new_resource.rpm_version + package_suffix}.x86_64.rpm"
 
     remote_file "#{Chef::Config[:file_cache_path]}/#{snort_rpm}" do
       source "https://www.snort.org/downloads/snort/#{snort_rpm}"
@@ -111,13 +111,13 @@ action_class.class_eval do
   end
 
   def snort_package
-    package = case new_resource.database
-              when 'none'
-                'snort'
-              when 'mysql'
-                'snort-mysql'
-              when 'postgresql', 'pgsql', 'postgres'
-                'snort-pgsql'
-              end
+    case new_resource.database
+    when 'none'
+      'snort'
+    when 'mysql'
+      'snort-mysql'
+    when 'postgresql', 'pgsql', 'postgres'
+      'snort-pgsql'
+    end
   end
 end

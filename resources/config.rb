@@ -11,19 +11,19 @@ property :file_data_ports, String, default: '$HTTP_PORTS,110,143'
 property :gtp_ports, String,       default: '2123,2152,3386'
 property :aim_servers, String,     default: '64.12.24.0/23,64.12.28.0/23,64.12.161.0/24,64.12.163.0/24,64.12.200.0/24,205.188.3.0/24,205.188.5.0/24,205.188.7.0/24,205.188.9.0/24,205.188.153.0/24,205.188.179.0/24,205.188.248.0/24'
 
-property :decoder_config, Array, default: ['disable_decode_alerts', 'disable_tcpopt_experimental_alerts','disable_tcpopt_obsolete_alerts','disable_tcpopt_ttcp_alerts','disable_tcpopt_alerts','disable_ipopt_alerts','checksum_mode: all']
+property :decoder_config, Array, default: ['disable_decode_alerts', 'disable_tcpopt_experimental_alerts', 'disable_tcpopt_obsolete_alerts', 'disable_tcpopt_ttcp_alerts', 'disable_tcpopt_alerts', 'disable_ipopt_alerts', 'checksum_mode: all']
 property :detection_config, Hash, default: {
   'config pcre_match_limit' => '3500',
   'config pcre_match_limit_recursion' =>  '1500',
   'config detection' => 'search-method ac-split search-optimize max-pattern-len 20',
-  'config event_queue' => 'max_queue 8 log 5 order_events content_length'
+  'config event_queue' => 'max_queue 8 log 5 order_events content_length',
 }
 property :perfprofiling_config, Hash, default: {}
 property :paf_max, String, default: '16000'
 property :dynamic_config, Hash, default: {
-'dynamicpreprocessor directory' => '/usr/lib64/snort-2.9.9.0_dynamicpreprocessor/',
-'dynamicengine' => '/usr/lib64/snort-2.9.9.0_dynamicengine/libsf_engine.so',
-'dynamicdetection directory' => '/usr/lib/snort_dynamicrules'
+  'dynamicpreprocessor directory' => '/usr/lib64/snort-2.9.9.0_dynamicpreprocessor/',
+  'dynamicengine' => '/usr/lib64/snort-2.9.9.0_dynamicengine/libsf_engine.so',
+  'dynamicdetection directory' => '/usr/lib/snort_dynamicrules',
 }
 property :output_config, Hash, default: { 'unified2' => 'filename merged.log, limit 128, nostamp, mpls_event_types, vlan_event_types' }
 property :preprocessor, [Array, Hash], default: [
@@ -37,24 +37,24 @@ property :preprocessor, [Array, Hash], default: [
 property :site_rules_include, Array
 property :decoder_preproc_rules, Array
 property :dynamic_rules_include, Array, default: %w(
-bad-traffic.rules
-chat.rules
-dos.rules
-exploit.rules
-icmp.rules
-imap.rules
-misc.rules
-multimedia.rules
-netbios.rules
-nntp.rules
-p2p.rules
-smtp.rules
-snmp.rules
-specific-threats.rules
-web-activex.rules
-web-client.rules
-web-iis.rules
-web-misc.rules
+  bad-traffic.rules
+  chat.rules
+  dos.rules
+  exploit.rules
+  icmp.rules
+  imap.rules
+  misc.rules
+  multimedia.rules
+  netbios.rules
+  nntp.rules
+  p2p.rules
+  smtp.rules
+  snmp.rules
+  specific-threats.rules
+  web-activex.rules
+  web-client.rules
+  web-iis.rules
+  web-misc.rules
 )
 
 action :create do
@@ -67,9 +67,8 @@ action :create do
     notifies :restart, "service[#{svc_name}]", :delayed
     variables(
       home_net: new_resource.home_net,
-      external_net: new_resource.external_net,
+      external_net: new_resource.external_net
     )
     action :create
   end
-
 end

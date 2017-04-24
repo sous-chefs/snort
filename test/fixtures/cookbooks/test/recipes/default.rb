@@ -6,11 +6,7 @@ snort_service 'snort service' do
   action [:enable, :start]
 end
 
-snort_rules 'community' do
-
-end
-oink_code ''
-tar_name ''
+snort_rules 'community'
 
 snort_rules 'registered' do
   oink_code node['oink_code']
