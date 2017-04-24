@@ -4,7 +4,7 @@ describe 'snort package' do
   end
 end
 
-if os[:family] == 'centos' || os[:family] == 'fedora'
+if os[:family] == 'redhat' || os[:family] == 'fedora'
   describe service('snortd') do
     it { should be_enabled }
     it { should be_running }
@@ -12,6 +12,6 @@ if os[:family] == 'centos' || os[:family] == 'fedora'
 else
   describe service('snort') do
     it { should be_enabled }
-    # it { should be_running }
+    it { should be_running }
   end
 end

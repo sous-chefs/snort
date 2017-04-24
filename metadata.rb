@@ -15,6 +15,8 @@ recipe 'snort::_install', 'Installs snort packages based on platform'
 end
 
 depends 'yum-epel'
+depends 'compat_resource'
+depends 'poise-archive'
 
 source_url 'https://github.com/sous-chefs/snort'
 issues_url 'https://github.com/sous-chefs/snort/issues'

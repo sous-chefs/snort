@@ -17,7 +17,8 @@
 # limitations under the License.
 #
 
-include_recipe 'snort::_install'
+snort_install 'none' do
+end
 
 snort_service 'snort service' do
   action [:start, :enable]

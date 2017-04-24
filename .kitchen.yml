@@ -21,3 +21,5 @@ suites:
  - name: default
    run_list:
    - recipe[snort::default]
+   attributes:
+      oink_code: <%= ENV['SNORT_LICENCE'] %>
