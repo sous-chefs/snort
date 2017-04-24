@@ -25,7 +25,7 @@ property :home_net, [String, nil], default: lazy {
     '192.168.0.0/16'
   end
 }
-property :checksum, String, default: lazy {
+property :checksum, [String, nil], default: lazy {
   case node['platform_family']
   when 'rhel'
     '4e40da758f49701c8cf418a1b28021f646a7d442357939334411481a760ad8e7'
@@ -33,7 +33,7 @@ property :checksum, String, default: lazy {
     '764d9a74afa97147c852bf6bf23f1ad47e159ce68a89c53937acfda5d507cf63'
   end
 }
-property :daq_checksum, String, default: lazy {
+property :daq_checksum, [String, nil], default: lazy {
   case node['platform_family']
   when 'rhel'
     '9e3a45d6b265d3cc7868220eb9152a73803adda7829f150f7c8b5d707c6b4c43'
@@ -47,6 +47,11 @@ property :daq_version, String, default: '2.0.6-1'
 action :create do
   case node['platform_family']
   when 'debian'
+
+    snort_service 'snort service' do
+      action :enable
+    end
+
     directory '/var/cache/local/preseeding' do
       mode '0755'
       recursive true
@@ -98,6 +103,11 @@ action :create do
     yum_package 'snort' do
       source "#{Chef::Config[:file_cache_path]}/#{snort_rpm}"
     end
+
+    snort_service 'snort service' do
+      action :enable
+    end
+
   end
 end
 

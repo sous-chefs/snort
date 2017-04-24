@@ -3,7 +3,7 @@ snort_install 'none' do
 end
 
 snort_service 'snort service' do
-  action [:enable, :start]
+  action :start
 end
 
 snort_rules 'community'
