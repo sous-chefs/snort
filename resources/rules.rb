@@ -12,7 +12,7 @@ end
 action_class.class_eval do
   def rules_url
     if new_resource.download_type.eql? 'community'
-      "https://www.snort.org/downloads/#{new_resource.download_type}/#{new_resource.community_rules}"
+      "https://www.snort.org/downloads/#{new_resource.download_type}/#{new_resource.tar_name}"
     else
       log 'Oink Error' do
         level   :error
@@ -20,7 +20,7 @@ action_class.class_eval do
         only_if { new_resource.oinkcode.nil? }
       end
 
-      "https://www.snort.org/downloads/#{new_resource.download_type}/#{new_resource.community_rules}?oinkcode=#{oinkcode}"
+      "https://www.snort.org/downloads/#{new_resource.download_type}/#{new_resource.tar_name}?oinkcode=#{oinkcode}"
     end
   end
 end

@@ -45,13 +45,14 @@ property :rpm_version, String, default: '2.9.9.0-1'
 property :daq_version, String, default: '2.0.6-1'
 
 action :create do
-  case node['platform_family']
-  when 'debian'
-
-    snort_service 'snort service' do
+  with_run_context :parent do
+    snort_service 'snort' do
       action :enable
     end
+  end
 
+  case node['platform_family']
+  when 'debian'
     directory '/var/cache/local/preseeding' do
       mode '0755'
       recursive true
@@ -59,6 +60,7 @@ action :create do
 
     template '/var/cache/local/preseeding/snort.seed' do
       source 'snort.seed.erb'
+      cookbook 'snort'
       mode '0755'
       variables(
         home_net: new_resource.home_net
@@ -103,11 +105,12 @@ action :create do
     yum_package 'snort' do
       source "#{Chef::Config[:file_cache_path]}/#{snort_rpm}"
     end
+  end
 
-    snort_service 'snort service' do
-      action :enable
+  with_run_context :parent do
+    snort_service 'snort' do
+      action :start
     end
-
   end
 end
 

@@ -49,7 +49,7 @@ Used to setup the `snort_service` for use in other resources.
 ## Usage
 
 - Include `depends 'snort'` in your `metadata.rb`.
-- Use the `snort_install` to install the package.
+- Use the `snort_install` to install the package. This also creates the `snort_service` resource which you can use to stop, start & enable the snort service correctly.
 
 RHEL based systems you _must_ use the following resources (optional on Debian based systems).
 

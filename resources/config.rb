@@ -1,5 +1,4 @@
 property :name, String, name_property: true
-property :service_name, String
 property :home_net, String,     default: 'any'
 property :external_net, String, default: 'any'
 
@@ -37,26 +36,9 @@ property :preprocessor, [Array, Hash], default: [
   'frag3_engine: policy windows detect_anomalies overlap_limit 10 min_fragment_length 100 timeout 180']
 property :site_rules_include, Array
 property :decoder_preproc_rules, Array
-property :dynamic_rules_include, Array, default: %w(
-  bad-traffic.rules
-  chat.rules
-  dos.rules
-  exploit.rules
-  icmp.rules
-  imap.rules
-  misc.rules
-  multimedia.rules
-  netbios.rules
-  nntp.rules
-  p2p.rules
-  smtp.rules
-  snmp.rules
-  specific-threats.rules
-  web-activex.rules
-  web-client.rules
-  web-iis.rules
-  web-misc.rules
-)
+property :dynamic_rules_include, Array
+property :enable_white_list, [true, false] , default: true
+property :enable_black_list, [true, false] , default: true
 
 action :create do
   template '/etc/snort/snort.conf' do
@@ -65,27 +47,30 @@ action :create do
     owner 'root'
     group 'root'
     mode '0644'
-    notifies :restart, "service[#{svc_name}]", :delayed
+    notifies :restart, "snort_service[snort]", :delayed
     variables(
       home_net: new_resource.home_net,
-      external_net: new_resource.external_net
+      external_net: new_resource.external_net,
+      http_ports: new_resource.http_ports,
+      ftp_ports: new_resource.ftp_ports,
+      sip_ports: new_resource.sip_ports,
+      file_data_ports: new_resource.file_data_ports,
+      gtp_ports: new_resource.gtp_ports,
+      aim_servers: new_resource.aim_servers,
+      decoder_config: new_resource.decoder_config,
+      detection_config: new_resource.detection_config,
+      perfprofiling_config: new_resource.perfprofiling_config,
+      paf_max: new_resource.paf_max,
+      dynamic_config: new_resource.dynamic_config,
+      preprocessor: new_resource.preprocessor,
+      output_config: new_resource.output_config,
+      site_rules_include: new_resource.site_rules_include,
+      decoder_preproc_rules: new_resource.decoder_preproc_rules,
+      dynamic_rules_include: new_resource.dynamic_rules_include,
+      enable_white_list: new_resource.enable_white_list,
+      enable_black_list: new_resource.enable_black_list,
     )
+    # verify 'snort -u snort -g snort -c /etc/snort/snort.conf'
     action :create
-  end
-end
-
-action_class.class_eval do
-  # Determine the service_name either by platform or via user override
-  def svc_name
-    if new_resource.service_name
-      new_resource.service_name
-    else
-      case node['platform_family']
-      when 'debian'
-        'snort'
-      else
-        'snortd'
-      end
-    end
   end
 end

@@ -45,7 +45,7 @@
 ipvar HOME_NET <%= @home_net %>
 
 # Set up the external network addresses. Leave as "any" in most situations
-ipvar EXTERNAL_NET <% @external_net %>
+ipvar EXTERNAL_NET <%= @external_net %>
 
 # List of DNS servers on your network
 ipvar DNS_SERVERS $HOME_NET
@@ -101,33 +101,37 @@ ipvar AIM_SERVERS [<%= @aim_servers %>]
 # Path to your rules files (this can be a relative path)
 # Note for Windows users:  You are advised to make this an absolute path,
 # such as:  c:\snort\rules
-var RULE_PATH /etc/snort/rules
-var SO_RULE_PATH ../so_rules
-var PREPROC_RULE_PATH ../preproc_rules
+var RULE_PATH rules
+var SO_RULE_PATH so_rules
+var PREPROC_RULE_PATH preproc_rules
 
 # If you are using reputation preprocessor set these
 # Currently there is a bug with relative paths, they are relative to where snort is
 # not relative to snort.conf like the above variables
 # This is completely inconsistent with how other vars work, BUG 89986
 # Set the absolute path appropriately
-var WHITE_LIST_PATH ../rules
-var BLACK_LIST_PATH ../rules
+<% if @enable_white_list %>
+var WHITE_LIST_PATH /etc/snort/rules
+<% end -%>
+<% if @enable_black_list %>
+var BLACK_LIST_PATH /etc/snort/rules
+<% end -%>
 
 ###################################################
 # Step #2: Configure the decoder.  For more information, see README.decode
 ###################################################
 
-<% @decoder_config.each do |v|%>
+<% @decoder_config.each do |v| %>
 config <%= v %>
 <% end -%>
-
 
 ###################################################
 # Step #3: Configure the base detection engine.  For more information, see  README.decode
 ###################################################
 
-<% @detection_config.each do |key, value|%>
+<% @detection_config.each do |key, value| %>
 <%= key %>: <%= value %>
+<% end -%>
 
 
 ###################################################
@@ -161,14 +165,15 @@ config <%= v %>
 #config profile_rules: print all, sort avg_ticks
 #config profile_preprocs: print all, sort avg_ticks
 
-<% @perfprofiling_config.each do |key, value|%>
-<%= key >: <%= value %>
+<% @perfprofiling_config.each do |key, value| %>
+<%= key %>: <%= value %>
+<% end -%>
 
 ###################################################
 # Configure protocol aware flushing
 # For more information see README.stream5
 ###################################################
-config paf_max: <%= @pad_max %>
+config paf_max: <%= @paf_max %>
 
 ###################################################
 # Step #4: Configure dynamic loaded libraries.
@@ -183,8 +188,8 @@ config paf_max: <%= @pad_max %>
 
 # path to dynamic rules libraries
 # dynamicdetection directory /usr/local/lib/snort_dynamicrules
-<% @dynamic_config.each do |key, value|%>
-<%= key > <%= value %>
+<% @dynamic_config.each do |key, value| %>
+<%= key %> <%= value %>
 <% end -%>
 
 ###################################################
@@ -209,7 +214,7 @@ config paf_max: <%= @pad_max %>
 
 <% @preprocessor.each do |v| %>
 preprocessor <%= v %>
-<% end %>
+<% end -%>
 
 
 # Target-Based stateful inspection/stream reassembly.  For more inforation, see README.stream5
@@ -448,8 +453,12 @@ preprocessor reputation: \
    memcap 500, \
    priority whitelist, \
    nested_ip inner, \
+   <% if @enable_white_list %>
    whitelist $WHITE_LIST_PATH/white_list.rules, \
+   <% end -%>
+   <% if @enable_black_list %>
    blacklist $BLACK_LIST_PATH/black_list.rules
+   <% end -%>
 
 ###################################################
 # Step #6: Configure output plugins
@@ -470,7 +479,7 @@ preprocessor reputation: \
 # pcap
 # output log_tcpdump: tcpdump.log
 
-<% @output_config.each do |key,value|%>
+<% @output_config.each do |key,value |%>
 <%= key %>: <%= value %>
 <% end -%>
 
@@ -486,8 +495,10 @@ include reference.config
 ###################################################
 
 # site specific rules
-<% @site_rules_include.each do |rule|%>
+<% unless @site_rules_include.nil? %>
+<% @site_rules_include.each do |rule| %>
 include $RULE_PATH/<%= rule %>
+<% end -%>
 <% end -%>
 
 ###################################################
@@ -512,8 +523,10 @@ include $PREPROC_RULE_PATH/<%= rule %>
 ###################################################
 
 # dynamic library rules
+<% unless @dynamic_rules_include.nil? %>
 <% @dynamic_rules_include.each do |rule| %>
 include $SO_RULE_PATH/<%= rule %>
+<% end -%>
 <% end -%>
 
 # Event thresholding or suppression commands. See threshold.conf

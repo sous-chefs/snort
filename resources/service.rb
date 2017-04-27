@@ -1,5 +1,4 @@
 property :name, String, name_property: true
-property :service_name, String
 
 action :start do
   create_init
@@ -82,17 +81,12 @@ action_class.class_eval do
     end
   end
 
-  # Determine the service_name either by platform or via user override
   def svc_name
-    if new_resource.service_name
-      new_resource.service_name
+    case node['platform_family']
+    when 'debian'
+      'snort'
     else
-      case node['platform_family']
-      when 'debian'
-        'snort'
-      else
-        'snortd'
-      end
+      'snortd'
     end
   end
 end
