@@ -37,8 +37,8 @@ property :preprocessor, [Array, Hash], default: [
 property :site_rules_include, Array
 property :decoder_preproc_rules, Array
 property :dynamic_rules_include, Array
-property :enable_white_list, [true, false] , default: true
-property :enable_black_list, [true, false] , default: true
+property :enable_white_list, [true, false], default: true
+property :enable_black_list, [true, false], default: true
 
 action :create do
   template '/etc/snort/snort.conf' do
@@ -47,7 +47,7 @@ action :create do
     owner 'root'
     group 'root'
     mode '0644'
-    notifies :restart, "snort_service[snort]", :delayed
+    notifies :restart, 'snort_service[snort]', :delayed
     variables(
       home_net: new_resource.home_net,
       external_net: new_resource.external_net,
@@ -68,7 +68,7 @@ action :create do
       decoder_preproc_rules: new_resource.decoder_preproc_rules,
       dynamic_rules_include: new_resource.dynamic_rules_include,
       enable_white_list: new_resource.enable_white_list,
-      enable_black_list: new_resource.enable_black_list,
+      enable_black_list: new_resource.enable_black_list
     )
     # verify 'snort -u snort -g snort -c /etc/snort/snort.conf'
     action :create
