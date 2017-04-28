@@ -116,12 +116,7 @@ action :create do
 
     yum_package 'snort' do
       source "#{Chef::Config[:file_cache_path]}/#{snort_rpm}"
-    end
-  end
-
-  with_run_context :parent do
-    snort_service 'snort' do
-      action :start
+      notifies :start, 'snort_service[snort]', :delayed
     end
   end
 end

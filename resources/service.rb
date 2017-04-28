@@ -59,9 +59,7 @@ action_class.class_eval do
         cookbook 'snort'
         notifies :run, 'execute[Load systemd unit file]', :immediately
       end
-
     else
-
       template "/etc/init/#{svc_name}.conf" do
         source 'init_upstart.erb'
         cookbook 'snort'
