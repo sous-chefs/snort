@@ -10,8 +10,9 @@ verifier:
   name: inspec
 
 platforms:
+  - name: centos-7.3 CHEF_VERSION=12.19.36
   - name: centos-7.3
-  - name: debian-7.11
+  # - name: debian-7.11 remove until Debian Vagrant box is fixed
   - name: debian-8.7
   - name: fedora-25
   - name: ubuntu-14.04
