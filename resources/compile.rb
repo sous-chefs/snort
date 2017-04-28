@@ -19,12 +19,24 @@
 property :daq_tar, String, required: true
 property :snort_tar, String, required: true
 property :name, String, name_property: true
+property :snort_version, String, required: true
+property :daq_version, String, required: true
 
 default_action :compile
 
 action :compile do
   package %w(flex bison make libpcap-dev libdnet-dev libdumbnet-dev libpcre3-dev libghc-zlib-dev)
-  directories ['/etc/snort', '/etc/snort/rules', '/usr/local/lib/snort_dynamicrules','/var/log/snort']
+
+  user 'snort' do
+   shell '/sbin/nologin'
+   comment 'SNORT_IDS'
+  end
+
+  group 'snort' do
+    members 'snort'
+  end
+
+  directories = ['/etc/snort', '/etc/snort/rules', '/usr/local/lib/snort_dynamicrules','/var/log/snort']
 
   directories.each do |d|
     directory d do
@@ -34,25 +46,47 @@ action :compile do
     end
   end
 
-  user 'snort' do
-   '/sbin/nologin'
+  poise_archive new_resource.daq_tar do
+    destination daq_path
+    notifies :run, 'execute[Compile DAQ]', :immediately
   end
 
-  group 'snort' do
-    members 'snort'
+  poise_archive new_resource.snort_tar do
+    destination snort_path
+    notifies :run, 'execute[Compile snort]', :immediately
   end
 
-  ark 'daq' do
-    url new_resource.daq_tar
-    :install_with_make
+  execute 'Compile DAQ' do
+    cwd daq_path
+    command <<-EOH
+    ./configure
+    make
+    make install
+    EOH
+    action :nothing
   end
 
-  ark 'snort' do
-    url new_resource.snort_tar
-    :install_with_make
+  execute 'Compile snort' do
+    cwd snort_path
+    command <<-EOH
+      ./configure --enable-sourcefire
+      make
+      make install
+      ldconfig
+      ln -s /usr/local/bin/snort /usr/sbin/snort
+      cp #{snort_path}/etc/*.conf* /etc/snort
+      cp #{snort_path}/etc/*.map* /etc/snort
+    EOH
+    action :nothing
+  end
+end
+
+action_class.class_eval do
+  def daq_path
+    "#{Chef::Config[:file_cache_path]}/daq"
   end
 
-
-
-
+  def snort_path
+    "#{Chef::Config[:file_cache_path]}/snort"
+  end
 end
