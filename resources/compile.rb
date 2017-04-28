@@ -28,15 +28,15 @@ action :compile do
   package %w(flex bison make libpcap-dev libdnet-dev libdumbnet-dev libpcre3-dev libghc-zlib-dev)
 
   user 'snort' do
-   shell '/sbin/nologin'
-   comment 'SNORT_IDS'
+    shell '/sbin/nologin'
+    comment 'SNORT_IDS'
   end
 
   group 'snort' do
     members 'snort'
   end
 
-  directories = ['/etc/snort', '/etc/snort/rules', '/usr/local/lib/snort_dynamicrules','/var/log/snort']
+  directories = ['/etc/snort', '/etc/snort/rules', '/usr/local/lib/snort_dynamicrules', '/var/log/snort']
 
   directories.each do |d|
     directory d do

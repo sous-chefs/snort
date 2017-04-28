@@ -67,7 +67,6 @@ action :create do
   end
 
   if new_resource.install_type.eql? 'package' do
-
     case node['platform_family']
     when 'debian'
       directory '/var/cache/local/preseeding' do
@@ -128,7 +127,7 @@ action :create do
       end
     end
   end
-end
+  end
 end
 
 action_class.class_eval do
