@@ -21,10 +21,7 @@ property :detection_config, Hash, default: {
 }
 property :perfprofiling_config, Hash, default: {}
 property :paf_max, String, default: '16000'
-property :dynamic_config, Hash, default: {
-  'dynamicpreprocessor directory' => '/usr/lib64/snort-2.9.9.0_dynamicpreprocessor/',
-  'dynamicengine' => '/usr/lib64/snort-2.9.9.0_dynamicengine/libsf_engine.so',
-}
+property :dynamic_config, Hash
 property :output_config, Hash, default: { 'unified2' => 'filename merged.log, limit 128, nostamp, mpls_event_types, vlan_event_types' }
 property :preprocessor, [Array, Hash], default: [
   'normalize_ip4',

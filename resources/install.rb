@@ -87,7 +87,9 @@ action :create do
 
     package snort_package
 
-    package 'snort-rules-default'
+    package 'snort-rules-default' do
+      notifies :start, 'snort_service[snort]', :delayed
+    end
 
   when 'rhel', 'fedora'
 
@@ -102,7 +104,7 @@ action :create do
       mode '0644'
     end
 
-    yum_package 'daq' do
+    package 'daq' do
       source "#{Chef::Config[:file_cache_path]}/#{daq_rpm}"
     end
 
@@ -114,7 +116,7 @@ action :create do
       mode '0644'
     end
 
-    yum_package 'snort' do
+    package 'snort' do
       source "#{Chef::Config[:file_cache_path]}/#{snort_rpm}"
       notifies :start, 'snort_service[snort]', :delayed
     end
