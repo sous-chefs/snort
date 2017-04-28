@@ -17,6 +17,7 @@ end
 depends 'yum-epel'
 depends 'compat_resource'
 depends 'poise-archive'
+depends 'ark'
 
 source_url 'https://github.com/sous-chefs/snort'
 issues_url 'https://github.com/sous-chefs/snort/issues'

@@ -25,6 +25,7 @@ property :home_net, [String, nil], default: lazy {
     '192.168.0.0/16'
   end
 }
+property :interface, [String, nil]
 property :checksum, [String, nil], default: lazy {
   case node['platform_family']
   when 'rhel'
@@ -43,11 +44,21 @@ property :daq_checksum, [String, nil], default: lazy {
 }
 property :rpm_version, String, default: '2.9.9.0-1'
 property :daq_version, String, default: '2.0.6-1'
+property :install_type, String, default: 'package', equal_to: %w( package compile )
+property :daq_tar, [String, nil] # If you want to override the daq_tar pass in the full url e.g. https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
+property :snort_tar, [String, nil]
 
 action :create do
   with_run_context :parent do
     snort_service 'snort' do
       action :enable
+    end
+  end
+
+  if new_resource.install_type.eql? 'compile'
+    snort_compile '' do
+      daq_tar new_resource.daq_tar.nil? ? "https://www.snort.org/downloads/snort/daq-#{new_resource.daq_version}.tar.gz" : new_resource.daq_tar
+      snort_tar new_resource.snort_tar.nil? ? "https://www.snort.org/downloads/snort/snort-#{new_resource.snort_version}.tar.gz" : new_resource.snort_tar
     end
   end
 
@@ -63,7 +74,8 @@ action :create do
       cookbook 'snort'
       mode '0755'
       variables(
-        home_net: new_resource.home_net
+        home_net: new_resource.home_net,
+        interface: new_resource.interface.nil? ? default_interface : new_resource.interface, # Use computed interface if we haven't passed one in
       )
       notifies :run, 'execute[preseed snort]', :immediately
     end
@@ -132,5 +144,12 @@ action_class.class_eval do
     when 'postgresql', 'pgsql', 'postgres'
       'snort-pgsql'
     end
+  end
+
+  def default_interface
+    require 'mixlib/shellout'
+
+    default_interface = Mixlib::ShellOut.new("route | grep default | awk '{print $8}'")
+    default_interface.run_command.stdout.strip!
   end
 end

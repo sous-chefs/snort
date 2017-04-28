@@ -5,7 +5,7 @@ snort	snort/startup	select	boot
 snort	snort/options	string
 snort	snort/invalid_interface	error
 snort	snort/stats_treshold	string	1
-snort	snort/interface	string	eth0
+snort	snort/interface	string	<%= @interface %>
 snort-common	snort/deprecated_config	note
 snort	snort/disable_promiscuous	boolean	false
 snort	snort/stats_rcpt	string	root

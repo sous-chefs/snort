@@ -16,7 +16,7 @@ action_class.class_eval do
     else
       log 'Oink Error' do
         level   :error
-        message 'You must specify an Oink code this rule set'
+        message 'You must specify an Oink code to use this rule set'
         only_if { new_resource.oinkcode.nil? }
       end
 
