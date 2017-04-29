@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the snort cookbook.
 
+## v3.0.0 (tbc)
+
+- New custom resources for `snort_install`, `snort_compile`, `snort_rules`, `snort_config`
+- Updated `snort_service`
+
 ## v2.1.0
 
 - Update the versions to the latest snort on RHEL/Fedora
