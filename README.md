@@ -2,41 +2,32 @@
 
 [![Build Status](https://travis-ci.org/sous-chefs/snort.svg?branch=master)](https://travis-ci.org/sous-chefs/snort) [![Cookbook Version](https://img.shields.io/cookbook/v/snort.svg)](https://supermarket.chef.io/cookbooks/snort)
 
-Installs the SNORT IDS daemon. On Debian/Ubuntu systems, the packages from apt are used. On RHEL and Fedora systems, the packages are retrieved directly from the SNORT project site.
+Installs the SNORT IDS daemon.
 
 ## Requirements
 
 ### Platforms
 
-- Ubuntu 12.04+
+- Ubuntu 14.04+
 - RHEL/CentOS, 7.0 and higher only.
 - Fedora
+- Debian 8
 
 ### Chef
 
 - Chef 12.1+
 
-### Cookbooks
-
-- compat_resource to bring custom_resource functionality to chef-client < 12.5
-- yum-epel for RHEL platforms
-
-### Snort Rules
-
-On RHEL/Fedora,
-
 ## Resources
 
 ### Install
 
-Installs snort from:
-
-- Apt Debian based systems
-- snort.org site on RHEL based systems. RHEL based systems will require you to download additional rules (the free ones will do if you register).
+- On Ubuntu systems, the packages from apt are used.
+- On RHEL and Fedora systems, the packages are retrieved directly from the SNORT project site.
+- On Debian the test recipe forces a compiled install.
 
 ### Config
 
-Configures `/etc/snort/snort.conf`.
+Configures `/etc/snort/snort.conf`. We recommend you put your own config in disk using the file resource.
 
 ### Rules
 
@@ -48,7 +39,8 @@ Used to setup the `snort_service` for use in other resources.
 
 ## Usage
 
-- Include `depends 'snort'` in your `metadata.rb`.
+An example usage pattern can be found in the test cookbook.
+
 - Use the `snort_install` to install the package. This also creates the `snort_service` resource which you can use to stop, start & enable the snort service correctly.
 
 RHEL based systems you _must_ use the following resources (optional on Debian based systems).

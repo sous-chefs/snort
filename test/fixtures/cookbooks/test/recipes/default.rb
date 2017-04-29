@@ -14,8 +14,3 @@ end
 snort_rules 'community' do
   override_url node['community_rules_url']
 end
-
-# snort_rules 'registered' do
-#   oink_code node['oink_code']
-#   tar_name 'snortrules-snapshot-2976.tar.gz'
-# end
