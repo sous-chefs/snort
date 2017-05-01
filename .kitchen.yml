@@ -1,28 +1,26 @@
 driver:
   name: vagrant
+  chef_version: current
 
 provisioner:
   name: chef_zero
+  deprecations_as_errors: true
 
 verifier:
   name: inspec
 
 platforms:
-  - name: centos-7.2
-  - name: debian-7.11
-    run_list: apt::default
-  - name: debian-8.6
-    run_list: apt::default
+  - name: centos-7.3
+  # - name: debian-7.11 remove until Debian Vagrant box is fixed
+  - name: debian-8.7
   - name: fedora-25
-    run_list: yum::dnf_yum_compat
-  - name: ubuntu-12.04
-    run_list: apt::default
   - name: ubuntu-14.04
-    run_list: apt::default
   - name: ubuntu-16.04
-    run_list: apt::default
 
 suites:
  - name: default
    run_list:
-   - recipe[snort::default]
+   - recipe[test::default]
+   attributes:
+      oink_code: <%= ENV['SNORT_LICENCE'] %>
+      community_rules_url: <%= ENV['COMMUNITY_URL'] %>
