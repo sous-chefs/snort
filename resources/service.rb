@@ -1,4 +1,5 @@
 property :name, String, name_property: true
+property :options, Array, default: ['-q']
 
 action :start do
   create_init
@@ -57,12 +58,14 @@ action_class.class_eval do
       template "/etc/systemd/system/#{svc_name}.service" do
         source 'init_systemd.erb'
         cookbook 'snort'
+        variables resource: new_resource
         notifies :run, 'execute[Load systemd unit file]', :immediately
       end
     else
       template "/etc/init/#{svc_name}.conf" do
         source 'init_upstart.erb'
         cookbook 'snort'
+        variables resource: new_resource
       end
     end
   end
