@@ -3,4 +3,4 @@ stop on runlevel [!2345]
 start on runlevel [2345]
 respawn
 respawn limit 10 5
-exec /usr/sbin/snort <%= @resource.options.shelljoin %> -u snort -g snort -c /etc/snort/snort.conf
+exec /usr/sbin/snort <%= @options.shelljoin %> -u snort -g snort -c /etc/snort/snort.conf
