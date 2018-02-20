@@ -1,4 +1,3 @@
-property :name, String, name_property: true
 property :options, Array, default: ['-q']
 
 action :start do

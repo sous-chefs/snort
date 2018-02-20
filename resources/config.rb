@@ -1,4 +1,3 @@
-property :name, String, name_property: true
 property :home_net, String,     default: 'any'
 property :external_net, String, default: 'any'
 
