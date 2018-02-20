@@ -1,19 +1,20 @@
 driver:
   name: vagrant
-  chef_version: current
 
 provisioner:
   name: chef_zero
+  product_name: chef
+  product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
+  install_strategy: once
   deprecations_as_errors: true
 
 verifier:
   name: inspec
 
 platforms:
-  - name: centos-7.3
-  # - name: debian-7.11 remove until Debian Vagrant box is fixed
-  - name: debian-8.7
-  - name: fedora-25
+  - name: centos-7
+  - name: debian-8
+  - name: fedora-27
   - name: ubuntu-14.04
   - name: ubuntu-16.04
 
