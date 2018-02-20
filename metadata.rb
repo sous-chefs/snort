@@ -12,7 +12,6 @@ chef_version     '>= 12.5' if respond_to?(:chef_version)
 end
 
 depends 'yum-epel'
-depends 'compat_resource', '>= 12.19'
 depends 'poise-archive'
 
 source_url 'https://github.com/sous-chefs/snort'
