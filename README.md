@@ -15,7 +15,7 @@ Installs the SNORT IDS daemon.
 
 ### Chef
 
-- Chef 12.1+
+- Chef 12.7+
 
 ## Resources
 
