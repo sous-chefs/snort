@@ -12,7 +12,7 @@ end
 
 action_class.class_eval do
   def rules_url
-    return new_resource.override_url unless override_url.nil?
+    return new_resource.override_url unless new_resource.override_url.nil?
 
     if new_resource.download_type.eql? 'community'
       "https://www.snort.org/downloads/#{new_resource.download_type}/#{new_resource.tar_name}"
