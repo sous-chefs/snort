@@ -1,14 +1,21 @@
 driver:
   name: dokken
   privileged: true # because Docker and SystemD/Upstart
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
 
 transport:
   name: dokken
 
 provisioner:
   name: dokken
+  deprecations_as_errors: true
 
 platforms:
+- name: amazonlinux
+  driver:
+    image: dokken/amazonlinux
+    pid_one_command: /sbin/init
+
 - name: debian-8
   driver:
     image: dokken/debian-8
@@ -26,13 +33,11 @@ platforms:
 - name: centos-6
   driver:
     image: dokken/centos-6
-    platform: rhel
     pid_one_command: /sbin/init
 
 - name: centos-7
   driver:
     image: dokken/centos-7
-    platform: rhel
     pid_one_command: /usr/lib/systemd/systemd
 
 - name: fedora-26
