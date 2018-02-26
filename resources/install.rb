@@ -128,8 +128,8 @@ end
 
 action_class.class_eval do
   def package_suffix
-    if node['platform'] == 'fedora'
-      '.f21'
+    if platform?('fedora')
+      '.f25'
     else
       '.centos7'
     end
