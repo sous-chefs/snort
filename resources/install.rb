@@ -58,9 +58,9 @@ action :create do
 
   if new_resource.install_type.eql? 'compile'
     snort_compile '' do
-      daq_tar new_resource.daq_tar.nil? ? "https://www.snort.org/downloads/snort/daq-#{new_resource.daq_version}.tar.gz" : new_resource.daq_tar
-      snort_tar new_resource.snort_tar.nil? ? "https://www.snort.org/downloads/snort/snort-#{new_resource.snort_version}.tar.gz" : new_resource.snort_tar
-      snort_version new_resource.snort_version
+      daq_tar new_resource.daq_tar.nil? ? "https://www.snort.org/downloads/snort/daq-#{new_resource.daq_version.split('-').first}.tar.gz" : new_resource.daq_tar
+      snort_tar new_resource.snort_tar.nil? ? "https://www.snort.org/downloads/snort/snort-#{new_resource.snort_version.split('-').first}.tar.gz" : new_resource.snort_tar
+      snort_version new_resource.snort_version.split('-').first # strip the RHEL-ish version
       daq_version new_resource.daq_version
       notifies :start, 'snort_service[snort]', :delayed
     end
