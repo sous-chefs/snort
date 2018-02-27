@@ -18,7 +18,6 @@
 #
 property :daq_tar, String, required: true
 property :snort_tar, String, required: true
-property :name, String, name_property: true
 property :snort_version, String, required: true
 property :daq_version, String, required: true
 

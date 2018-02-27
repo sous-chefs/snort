@@ -11,11 +11,11 @@ Installs the SNORT IDS daemon.
 - Ubuntu 14.04+
 - RHEL/CentOS, 7.0 and higher only.
 - Fedora
-- Debian 8
+- Debian 8+
 
 ### Chef
 
-- Chef 12.1+
+- Chef 12.7+
 
 ## Resources
 

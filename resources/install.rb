@@ -29,9 +29,9 @@ property :interface, [String, nil]
 property :checksum, [String, nil], default: lazy {
   case node['platform_family']
   when 'rhel'
-    '4e40da758f49701c8cf418a1b28021f646a7d442357939334411481a760ad8e7'
+    '3bc90510b006b2f3f45bda3a54fb004d4a41afd271e861d8210fe44b83d8d675'
   when 'fedora'
-    '764d9a74afa97147c852bf6bf23f1ad47e159ce68a89c53937acfda5d507cf63'
+    '075a376bdbb34876a34045bd84c800957cbb7af12ab966cadb1ad967aef1087f'
   end
 }
 property :daq_checksum, [String, nil], default: lazy {
@@ -43,7 +43,7 @@ property :daq_checksum, [String, nil], default: lazy {
   end
 }
 property :rpm_version, String, default: lazy { snort_version }
-property :snort_version, String, default: '2.9.9.0-1'
+property :snort_version, String, default: '2.9.11.1-1'
 property :daq_version, String, default: '2.0.6-1'
 property :install_type, String, default: 'package', equal_to: %w( package compile )
 property :daq_tar, [String, nil] # If you want to override the daq_tar pass in the full url e.g. https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
@@ -58,9 +58,9 @@ action :create do
 
   if new_resource.install_type.eql? 'compile'
     snort_compile '' do
-      daq_tar new_resource.daq_tar.nil? ? "https://www.snort.org/downloads/snort/daq-#{new_resource.daq_version}.tar.gz" : new_resource.daq_tar
-      snort_tar new_resource.snort_tar.nil? ? "https://www.snort.org/downloads/snort/snort-#{new_resource.snort_version}.tar.gz" : new_resource.snort_tar
-      snort_version new_resource.snort_version
+      daq_tar new_resource.daq_tar.nil? ? "https://www.snort.org/downloads/snort/daq-#{new_resource.daq_version.split('-').first}.tar.gz" : new_resource.daq_tar
+      snort_tar new_resource.snort_tar.nil? ? "https://www.snort.org/downloads/snort/snort-#{new_resource.snort_version.split('-').first}.tar.gz" : new_resource.snort_tar
+      snort_version new_resource.snort_version.split('-').first # strip the RHEL-ish version
       daq_version new_resource.daq_version
       notifies :start, 'snort_service[snort]', :delayed
     end
@@ -128,8 +128,8 @@ end
 
 action_class.class_eval do
   def package_suffix
-    if node['platform'] == 'fedora'
-      '.f21'
+    if platform?('fedora')
+      '.f25'
     else
       '.centos7'
     end
