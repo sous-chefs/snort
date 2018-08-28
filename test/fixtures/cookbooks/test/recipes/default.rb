@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 snort_install 'none' do
   install_type node['platform'] == 'debian' ? 'compile' : 'package'
 end

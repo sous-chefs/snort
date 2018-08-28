@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 name              'test'
 maintainer        'Sous Chefs'
 maintainer_email  'help@sous-chefs.org'

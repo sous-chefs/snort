@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the snort cookbook.
 
+## v3.0.1 (2018-08-28)
+
+- Fix service start bug on RHEL platforms
+- Move resource helpers to a shared helpes file
+
 ## v3.0.0 (2017-05-03)
 
 - New custom resources for `snort_install`, `snort_compile`, `snort_rules`, `snort_config`

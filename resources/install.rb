@@ -45,7 +45,7 @@ property :daq_checksum, [String, nil], default: lazy {
 property :rpm_version, String, default: lazy { snort_version }
 property :snort_version, String, default: '2.9.11.1-1'
 property :daq_version, String, default: '2.0.6-1'
-property :install_type, String, default: 'package', equal_to: %w( package compile )
+property :install_type, String, default: 'package', equal_to: %w(package compile)
 property :daq_tar, [String, nil] # If you want to override the daq_tar pass in the full url e.g. https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
 property :snort_tar, [String, nil]
 
@@ -118,6 +118,15 @@ action :create do
         mode '0644'
       end
 
+      if platform_family?('rhel')
+        package %w(libdnet-devel libdnet)
+        # Snort expects a .1 file
+        link "#{system_lib_dir}/libdnet.1" do
+          to "#{system_lib_dir}/libdnet.so.1.0.1"
+          link_type :symbolic
+        end
+      end
+
       package 'snort' do
         source "#{Chef::Config[:file_cache_path]}/#{snort_rpm}"
         notifies :start, 'snort_service[snort]', :delayed
@@ -127,29 +136,5 @@ action :create do
 end
 
 action_class.class_eval do
-  def package_suffix
-    if platform?('fedora')
-      '.f25'
-    else
-      '.centos7'
-    end
-  end
-
-  def snort_package
-    case new_resource.database
-    when 'none'
-      'snort'
-    when 'mysql'
-      'snort-mysql'
-    when 'postgresql', 'pgsql', 'postgres'
-      'snort-pgsql'
-    end
-  end
-
-  def default_interface
-    require 'mixlib/shellout'
-
-    default_interface = Mixlib::ShellOut.new("route | grep default | awk '{print $8}'")
-    default_interface.run_command.stdout.strip!
-  end
+  include SnortCookbook::Helpers
 end
