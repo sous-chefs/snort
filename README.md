@@ -1,6 +1,6 @@
 # snort Cookbook
 
-[![Build Status](https://travis-ci.org/sous-chefs/snort.svg?branch=master)](https://travis-ci.org/sous-chefs/snort) [![Cookbook Version](https://img.shields.io/cookbook/v/snort.svg)](https://supermarket.chef.io/cookbooks/snort)
+[![CircleCI](https://circleci.com/gh/sous-chefs/snort.svg?style=svg)](https://circleci.com/gh/sous-chefs/snort) [![Cookbook Version](https://img.shields.io/cookbook/v/snort.svg)](https://supermarket.chef.io/cookbooks/snort)
 
 Installs the SNORT IDS daemon.
 
