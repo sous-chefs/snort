@@ -43,7 +43,7 @@ property :daq_checksum, [String, nil], default: lazy {
   end
 }
 property :rpm_version, String, default: lazy { snort_version }
-property :snort_version, String, default: '2.9.11.1-1'
+property :snort_version, String, default: '2.9.12-1'
 property :daq_version, String, default: '2.0.6-1'
 property :install_type, String, default: 'package', equal_to: %w(package compile)
 property :daq_tar, [String, nil] # If you want to override the daq_tar pass in the full url e.g. https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
