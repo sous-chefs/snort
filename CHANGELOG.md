@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the snort cookbook.
 
+## v4.0.1 (2018-12-14)
+
+- Updated checksums for the snort package on CentOS and Fedora
+
 ## v4.0.0 (2018-08-28)
 
 - Drop Chef-12 support

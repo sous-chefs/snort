@@ -29,9 +29,9 @@ property :interface, [String, nil]
 property :checksum, [String, nil], default: lazy {
   case node['platform_family']
   when 'rhel'
-    '3bc90510b006b2f3f45bda3a54fb004d4a41afd271e861d8210fe44b83d8d675'
+    'c0b9d7e855424b63efda0d443a2da30d16537ed827e7fdeb72a7e2a8c98d8393'
   when 'fedora'
-    '075a376bdbb34876a34045bd84c800957cbb7af12ab966cadb1ad967aef1087f'
+    '381f2b634ccb9559523e94062de9ffbbdcc5fc3c0f8cbfb51d2eaaa417533c95'
   end
 }
 property :daq_checksum, [String, nil], default: lazy {
