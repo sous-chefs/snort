@@ -26,5 +26,6 @@ workflows:
       - kitchen/dokken-single:
           name: default
           suite: default
+          context: snort
           requires:
             *lint_and_unit
