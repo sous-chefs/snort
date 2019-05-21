@@ -13,10 +13,10 @@ property :aim_servers, String,     default: '64.12.24.0/23,64.12.28.0/23,64.12.1
 
 property :decoder_config, Array, default: ['disable_decode_alerts', 'disable_tcpopt_experimental_alerts', 'disable_tcpopt_obsolete_alerts', 'disable_tcpopt_ttcp_alerts', 'disable_tcpopt_alerts', 'disable_ipopt_alerts', 'checksum_mode: all']
 property :detection_config, Hash, default: {
-  'config pcre_match_limit' => '3500',
+  'config pcre_match_limit' =>            '3500',
   'config pcre_match_limit_recursion' =>  '1500',
-  'config detection' => 'search-method ac-split search-optimize max-pattern-len 20',
-  'config event_queue' => 'max_queue 8 log 5 order_events content_length',
+  'config detection' =>                   'search-method ac-split search-optimize max-pattern-len 20',
+  'config event_queue' =>                 'max_queue 8 log 5 order_events content_length',
 }
 property :perfprofiling_config, Hash, default: {}
 property :paf_max, String, default: '16000'
