@@ -28,3 +28,6 @@ suites:
   - name: default
     run_list:
       - recipe[test::default]
+    attributes:
+        # oink_code: <%= ENV['SNORT_LICENCE'] %>
+        # community_rules_url: <%= ENV['COMMUNITY_URL'] %>
