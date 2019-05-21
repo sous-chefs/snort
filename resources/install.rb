@@ -29,9 +29,9 @@ property :interface, [String, nil]
 property :checksum, [String, nil], default: lazy {
   case node['platform_family']
   when 'rhel'
-    'c0b9d7e855424b63efda0d443a2da30d16537ed827e7fdeb72a7e2a8c98d8393'
+    'c0a8655abe1b0342d1717faa9fb25546'
   when 'fedora'
-    '381f2b634ccb9559523e94062de9ffbbdcc5fc3c0f8cbfb51d2eaaa417533c95'
+    '33c75aec804ed42c88a6ac51db61ea99'
   end
 }
 property :daq_checksum, [String, nil], default: lazy {
@@ -43,7 +43,7 @@ property :daq_checksum, [String, nil], default: lazy {
   end
 }
 property :rpm_version, String, default: lazy { snort_version }
-property :snort_version, String, default: '2.9.12-1'
+property :snort_version, String, default: '2.9.13-1'
 property :daq_version, String, default: '2.0.6-1'
 property :install_type, String, default: 'package', equal_to: %w(package compile)
 property :daq_tar, [String, nil] # If you want to override the daq_tar pass in the full url e.g. https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
