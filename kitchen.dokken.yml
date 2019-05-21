@@ -13,11 +13,6 @@ provisioner:
   deprecations_as_errors: true
 
 platforms:
-  - name: amazonlinux
-    driver:
-      image: dokken/amazonlinux
-      pid_one_command: /sbin/init
-
   - name: debian-8
     driver:
       image: dokken/debian-8
