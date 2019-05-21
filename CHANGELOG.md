@@ -31,7 +31,7 @@ This file is used to list changes made in each version of the snort cookbook.
 
 - Added new snort_service custom resource and a _service.rb recipe. The recipe is called by the default.rb recipe. The custom resource can be used to write wrapper cookbooks and supports the standard service actions (enable, start, restart, reload). The custom resource used the new Chef 12.5 customer resource format and the compat_resource cookbook for compatibility with 12.0+
 
-## v1.1.0:
+## v1.1.0
 
 - Updated to the latest daq and snort packages for RHEL
 - Added Chefspecs for RHEL/Debian platforms
@@ -45,7 +45,7 @@ This file is used to list changes made in each version of the snort cookbook.
 - Removed references to database output from the Readme
 - Added a Rakefile for simplified testing
 
-## v1.0.0:
+## v1.0.0
 
 - Updated to the latest Snort packages on RHEL / Fedora. For RHEL the minimum supported release is now RHEL 7 due to Snort requirements
 - The default package action is now install and not upgrade to prevent service restarts on Chef runs
@@ -58,6 +58,6 @@ This file is used to list changes made in each version of the snort cookbook.
 - Added a Gemfile with development dependencies
 - Added a Berksfile for development dependencies
 
-## v0.10.0:
+## v0.10.0
 
 - [COOK-1512] - Update SNORT cookbook with upstream changes for RHEL platforms
