@@ -57,21 +57,21 @@ action :compile do
 
   execute 'Compile DAQ' do
     cwd daq_path
-    command <<-EOH
-    ./configure
-    make
-    make install
-    EOH
+    command './configure && make && make install'
     action :nothing
   end
 
   execute 'Compile snort' do
     cwd snort_path
+    command './configure --enable-sourcefire --disable-open-appid && make && make install && ldconfig'
+    action :nothing
+
+    notifies :run, 'execute[Post-compile steps]', :immediately
+  end
+
+  execute 'Post-compile steps' do
+    cwd snort_path
     command <<-EOH
-      ./configure --enable-sourcefire
-      make
-      make install
-      ldconfig
       ln -s /usr/local/bin/snort /usr/sbin/snort
       cp #{snort_path}/etc/*.conf* /etc/snort
       cp #{snort_path}/etc/*.map* /etc/snort
