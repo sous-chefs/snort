@@ -1,7 +1,5 @@
-describe 'snort package' do
-  it 'should be installed' do
-    expect(file('/usr/sbin/snort')).to exist
-  end
+describe file('/usr/sbin/snort') do
+  it { should exist }
 end
 
 if os[:family] == 'redhat' || os[:family] == 'fedora'
