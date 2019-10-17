@@ -29,9 +29,9 @@ property :interface, [String, nil]
 property :checksum, [String, nil], default: lazy {
   case node['platform_family']
   when 'rhel'
-    'F9357ED7867BF9ABBD29906843F1D24800425A2D350F01F3B954A5ACF510306D'
+    'a57088d06efa670ee5f4ee6f264d04abaea361852892b88b7c28496d41adb66c'
   when 'fedora'
-    'E93FB043A2C07B6D5AF397DE74BB0B9DBC929C0B5B635C183D35CEC344918159'
+    '8a86694c7242287b6593fb29ee4f6490772776099b91783b7697da4bce01a32f'
   end
 }
 property :daq_checksum, [String, nil], default: lazy {
@@ -76,8 +76,7 @@ action :create do
         source 'snort.seed.erb'
         cookbook 'snort'
         mode '0755'
-        variables(
-          home_net: new_resource.home_net,
+        variables( home_net: new_resource.home_net,
           interface: new_resource.interface.nil? ? default_interface : new_resource.interface # Use computed interface if we haven't passed one in
         )
         notifies :run, 'execute[preseed snort]', :immediately
