@@ -76,9 +76,9 @@ action :create do
         source 'snort.seed.erb'
         cookbook 'snort'
         mode '0755'
-        variables( home_net: new_resource.home_net,
-          interface: new_resource.interface.nil? ? default_interface : new_resource.interface # Use computed interface if we haven't passed one in
-        )
+        variables(home_net: new_resource.home_net,
+                  interface: new_resource.interface.nil? ? default_interface : new_resource.interface # Use computed interface if we haven't passed one in
+                 )
         notifies :run, 'execute[preseed snort]', :immediately
       end
 
