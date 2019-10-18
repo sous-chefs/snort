@@ -10,7 +10,7 @@ module SnortCookbook
 
     def package_suffix
       if platform?('fedora')
-        '.f25'
+        '.f29'
       else
         '.centos7'
       end

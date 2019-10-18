@@ -1,3 +1,4 @@
+---
 driver:
   name: vagrant
 
@@ -12,10 +13,6 @@ verifier:
   name: inspec
 
 platforms:
-  - name: amazon-linux
-    driver_config:
-      box: mvbcoding/awslinux
-  - name: centos-6
   - name: centos-7
   - name: debian-8
   - name: debian-9
@@ -24,9 +21,6 @@ platforms:
   - name: ubuntu-16.04
 
 suites:
- - name: default
-   run_list:
-   - recipe[test::default]
-   attributes:
-      oink_code: <%= ENV['SNORT_LICENCE'] %>
-      community_rules_url: <%= ENV['COMMUNITY_URL'] %>
+  - name: default
+    run_list:
+      - recipe[test::default]

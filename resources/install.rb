@@ -29,9 +29,9 @@ property :interface, [String, nil]
 property :checksum, [String, nil], default: lazy {
   case node['platform_family']
   when 'rhel'
-    'c0b9d7e855424b63efda0d443a2da30d16537ed827e7fdeb72a7e2a8c98d8393'
+    'a57088d06efa670ee5f4ee6f264d04abaea361852892b88b7c28496d41adb66c'
   when 'fedora'
-    '381f2b634ccb9559523e94062de9ffbbdcc5fc3c0f8cbfb51d2eaaa417533c95'
+    '8a86694c7242287b6593fb29ee4f6490772776099b91783b7697da4bce01a32f'
   end
 }
 property :daq_checksum, [String, nil], default: lazy {
@@ -43,7 +43,7 @@ property :daq_checksum, [String, nil], default: lazy {
   end
 }
 property :rpm_version, String, default: lazy { snort_version }
-property :snort_version, String, default: '2.9.12-1'
+property :snort_version, String, default: '2.9.15-1'
 property :daq_version, String, default: '2.0.6-1'
 property :install_type, String, default: 'package', equal_to: %w(package compile)
 property :daq_tar, [String, nil] # If you want to override the daq_tar pass in the full url e.g. https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
@@ -76,10 +76,9 @@ action :create do
         source 'snort.seed.erb'
         cookbook 'snort'
         mode '0755'
-        variables(
-          home_net: new_resource.home_net,
-          interface: new_resource.interface.nil? ? default_interface : new_resource.interface # Use computed interface if we haven't passed one in
-        )
+        variables(home_net: new_resource.home_net,
+                  interface: new_resource.interface.nil? ? default_interface : new_resource.interface # Use computed interface if we haven't passed one in
+                 )
         notifies :run, 'execute[preseed snort]', :immediately
       end
 
@@ -98,17 +97,7 @@ action :create do
       # snort needs libnghttp2 from EPEL
       include_recipe 'yum-epel::default' if platform_family?('rhel')
 
-      daq_rpm = "daq-#{new_resource.daq_version}#{package_suffix}.x86_64.rpm"
-
-      remote_file "#{Chef::Config[:file_cache_path]}/#{daq_rpm}" do
-        source "https://www.snort.org/downloads/snort/#{daq_rpm}"
-        checksum new_resource.daq_checksum
-        mode '0644'
-      end
-
-      package 'daq' do
-        source "#{Chef::Config[:file_cache_path]}/#{daq_rpm}"
-      end
+      package 'daq'
 
       snort_rpm = "snort-#{new_resource.rpm_version + package_suffix}.x86_64.rpm"
 
