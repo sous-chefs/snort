@@ -5,7 +5,12 @@ property :download_type, String, equal_to: %w(community registered subscriber), 
 property :override_url, String
 
 action :create do
-  poise_archive rules_url.to_s do
+  remote_file 'snort tar' do
+    source rules_url.to_s
+    path ::File.join(Chef::Config[:file_cache_path], 'snort')
+  end
+
+  archive_file ::File.join(Chef::Config[:file_cache_path], 'snort') do
     destination "#{new_resource.conf_dir}/rules"
   end
 end

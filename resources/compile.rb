@@ -1,21 +1,3 @@
-#
-# Cookbook:: snort
-# Resource:: compile
-#
-# Copyright:: 2017, Webb Agile Solutions Ltd.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
 property :daq_tar, String, required: true
 property :snort_tar, String, required: true
 property :snort_version, String, required: true
@@ -45,13 +27,21 @@ action :compile do
     end
   end
 
-  poise_archive new_resource.daq_tar do
-    destination daq_path
+  remote_file new_resource.daq_tar do
+    path "#{daq_path}.tar.gz"
+  end
+
+  archive_file "#{daq_path}.tar.gz" do
+    path daq_path
     notifies :run, 'execute[Compile DAQ]', :immediately
   end
 
-  poise_archive new_resource.snort_tar do
-    destination snort_path
+  remote_file new_resource.snort_tar do
+    path "#{snort_path}.tar.gz"
+  end
+
+  archive_file "#{snort_path}.tar.gz" do
+    path snort_path
     notifies :run, 'execute[Compile snort]', :immediately
   end
 
@@ -65,7 +55,6 @@ action :compile do
     cwd snort_path
     command './configure --enable-sourcefire --disable-open-appid && make && make install && ldconfig'
     action :nothing
-
     notifies :run, 'execute[Post-compile steps]', :immediately
   end
 

@@ -3,9 +3,8 @@ maintainer       'Sous Chefs'
 maintainer_email 'help@sous-chefs.org'
 license          'Apache-2.0'
 description      'Installs Snort IDS packages'
-
 version          '4.0.2'
-chef_version     '>= 13.0'
+chef_version     '>= 15.0'
 source_url       'https://github.com/sous-chefs/snort'
 issues_url       'https://github.com/sous-chefs/snort/issues'
 
@@ -14,4 +13,3 @@ issues_url       'https://github.com/sous-chefs/snort/issues'
 end
 
 depends 'yum-epel'
-depends 'poise-archive'
