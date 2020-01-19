@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the snort cookbook.
 
+## Unreleased
+
+- Migrate to actions
+
 ## v4.0.2 (2019-06-25)
 
 - Added CircleCI 2.0 support
