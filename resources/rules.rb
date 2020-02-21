@@ -7,11 +7,11 @@ property :override_url, String
 action :create do
   remote_file 'snort tar' do
     source rules_url.to_s
-    path ::File.join(Chef::Config[:file_cache_path], 'snort')
+    path ::File.join(Chef::Config[:file_cache_path], 'snort.tar.gz')
   end
 
-  archive_file ::File.join(Chef::Config[:file_cache_path], 'snort') do
-    destination "#{new_resource.conf_dir}/rules"
+  archive_file ::File.join(Chef::Config[:file_cache_path], 'snort.tar.gz') do
+    destination ::File.join(new_resource.conf_dir, 'rules')
   end
 end
 
