@@ -5,6 +5,7 @@ This file is used to list changes made in each version of the snort cookbook.
 ## Unreleased
 
 - Migrate to actions
+- Replace archive_file with archive_file *Breaking change*
 
 ## v4.0.2 (2019-06-25)
 
