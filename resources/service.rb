@@ -82,8 +82,7 @@ action_class.class_eval do
   end
 
   def svc_name
-    case node['platform_family']
-    when 'debian'
+    if platform_family?('debian')
       'snort'
     else
       'snortd'
