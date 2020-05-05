@@ -2,7 +2,7 @@
 
 This file is used to list changes made in each version of the snort cookbook.
 
-## 5.0.0
+## 5.0.0 (2020-05-05)
 
 - Migrate to Github Actions
 - Replace zip extraction with archive_file *Breaking change*
