@@ -2,6 +2,14 @@
 
 This file is used to list changes made in each version of the snort cookbook.
 
+## Unreleased
+
+- Standardise files with files in sous-chefs/repo-management
+
+## 5.0.1 (2021-06-01)
+
+- Standardise files with files in sous-chefs/repo-management
+
 ## 5.0.0 (2020-05-05)
 
 - Migrate to Github Actions
