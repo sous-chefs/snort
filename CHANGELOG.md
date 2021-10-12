@@ -4,6 +4,15 @@ This file is used to list changes made in each version of the snort cookbook.
 
 ## Unreleased
 
+- resolved cookstyle error: resources/compile.rb:72:1 refactor: `Chef/Modernize/ClassEvalActionClass`
+- resolved cookstyle error: resources/install.rb:127:1 refactor: `Chef/Modernize/ClassEvalActionClass`
+- resolved cookstyle error: resources/rules.rb:18:1 refactor: `Chef/Modernize/ClassEvalActionClass`
+- resolved cookstyle error: resources/service.rb:5:26 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
+- resolved cookstyle error: resources/service.rb:18:77 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
+- resolved cookstyle error: resources/service.rb:30:26 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
+- resolved cookstyle error: resources/service.rb:44:77 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
+- resolved cookstyle error: resources/service.rb:48:1 refactor: `Chef/Modernize/ClassEvalActionClass`
+- resolved cookstyle error: resources/service.rb:50:8 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
 ## 5.0.2 - *2021-08-30*
 
 - Standardise files with files in sous-chefs/repo-management
