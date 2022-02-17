@@ -13,6 +13,11 @@ This file is used to list changes made in each version of the snort cookbook.
 - resolved cookstyle error: resources/service.rb:44:77 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
 - resolved cookstyle error: resources/service.rb:48:1 refactor: `Chef/Modernize/ClassEvalActionClass`
 - resolved cookstyle error: resources/service.rb:50:8 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
+
+## 5.0.3 - *2022-02-08*
+
+- Remove delivery folder
+
 ## 5.0.2 - *2021-08-30*
 
 - Standardise files with files in sous-chefs/repo-management
