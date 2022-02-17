@@ -1,3 +1,5 @@
+unified_mode true
+
 property :daq_tar, String, required: true
 property :snort_tar, String, required: true
 property :snort_version, String, required: true

@@ -4,7 +4,7 @@ maintainer_email 'help@sous-chefs.org'
 license          'Apache-2.0'
 description      'Installs Snort IDS packages'
 version          '5.0.3'
-chef_version     '>= 15.0'
+chef_version     '>= 15.5'
 source_url       'https://github.com/sous-chefs/snort'
 issues_url       'https://github.com/sous-chefs/snort/issues'
 
