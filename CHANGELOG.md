@@ -2,6 +2,8 @@
 
 This file is used to list changes made in each version of the snort cookbook.
 
+## Unreleased
+
 ## 5.0.5 - *2023-06-08*
 
 Standardise files with files in sous-chefs/repo-management
