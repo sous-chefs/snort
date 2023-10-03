@@ -16,6 +16,18 @@ This file is used to list changes made in each version of the snort cookbook.
 - Update tested platforms
 - Enable unified_mode
 
+## 5.0.8 - *2023-10-03*
+
+## 5.0.7 - *2023-09-29*
+
+## 5.0.6 - *2023-06-08*
+
+## 5.0.5 - *2023-06-08*
+
+Standardise files with files in sous-chefs/repo-management
+
+## 5.0.4 - *2023-02-14*
+
 ## 5.0.3 - *2022-02-08*
 
 - Remove delivery folder
@@ -64,7 +76,7 @@ This file is used to list changes made in each version of the snort cookbook.
 
 ## v2.0.0
 
-- Added new snort_service custom resource and a _service.rb recipe. The recipe is called by the default.rb recipe. The custom resource can be used to write wrapper cookbooks and supports the standard service actions (enable, start, restart, reload). The custom resource used the new Chef 12.5 customer resource format and the compat_resource cookbook for compatibility with 12.0+
+- Added new snort_service custom resource and a `_service.rb` recipe. The recipe is called by the default.rb recipe. The custom resource can be used to write wrapper cookbooks and supports the standard service actions (enable, start, restart, reload). The custom resource used the new Chef 12.5 customer resource format and the compat_resource cookbook for compatibility with 12.0+
 
 ## v1.1.0
 
