@@ -1,3 +1,5 @@
+unified_mode true
+
 property :oinkcode, [String, nil] # Supply this to download registered/subscriber rules
 property :tar_name, String, default: 'community-rules.tar.gz' # Override this if you have an Oink code and know the tar you want to download
 property :conf_dir, String, default: '/etc/snort'
@@ -15,7 +17,7 @@ action :create do
   end
 end
 
-action_class.class_eval do
+action_class do
   def rules_url
     return new_resource.override_url unless new_resource.override_url.nil?
 

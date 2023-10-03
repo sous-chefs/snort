@@ -4,6 +4,18 @@ This file is used to list changes made in each version of the snort cookbook.
 
 ## Unreleased
 
+- resolved cookstyle error: resources/compile.rb:72:1 refactor: `Chef/Modernize/ClassEvalActionClass`
+- resolved cookstyle error: resources/install.rb:127:1 refactor: `Chef/Modernize/ClassEvalActionClass`
+- resolved cookstyle error: resources/rules.rb:18:1 refactor: `Chef/Modernize/ClassEvalActionClass`
+- resolved cookstyle error: resources/service.rb:5:26 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
+- resolved cookstyle error: resources/service.rb:18:77 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
+- resolved cookstyle error: resources/service.rb:30:26 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
+- resolved cookstyle error: resources/service.rb:44:77 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
+- resolved cookstyle error: resources/service.rb:48:1 refactor: `Chef/Modernize/ClassEvalActionClass`
+- resolved cookstyle error: resources/service.rb:50:8 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
+- Update tested platforms
+- Enable unified_mode
+
 ## 5.0.8 - *2023-10-03*
 
 ## 5.0.7 - *2023-09-29*
@@ -64,7 +76,7 @@ Standardise files with files in sous-chefs/repo-management
 
 ## v2.0.0
 
-- Added new snort_service custom resource and a _service.rb recipe. The recipe is called by the default.rb recipe. The custom resource can be used to write wrapper cookbooks and supports the standard service actions (enable, start, restart, reload). The custom resource used the new Chef 12.5 customer resource format and the compat_resource cookbook for compatibility with 12.0+
+- Added new snort_service custom resource and a `_service.rb` recipe. The recipe is called by the default.rb recipe. The custom resource can be used to write wrapper cookbooks and supports the standard service actions (enable, start, restart, reload). The custom resource used the new Chef 12.5 customer resource format and the compat_resource cookbook for compatibility with 12.0+
 
 ## v1.1.0
 
