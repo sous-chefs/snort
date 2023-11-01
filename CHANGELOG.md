@@ -64,7 +64,7 @@ Standardise files with files in sous-chefs/repo-management
 
 ## v2.0.0
 
-- Added new snort_service custom resource and a _service.rb recipe. The recipe is called by the default.rb recipe. The custom resource can be used to write wrapper cookbooks and supports the standard service actions (enable, start, restart, reload). The custom resource used the new Chef 12.5 customer resource format and the compat_resource cookbook for compatibility with 12.0+
+- Added new snort_service custom resource and a_service.rb recipe. The recipe is called by the default.rb recipe. The custom resource can be used to write wrapper cookbooks and supports the standard service actions (enable, start, restart, reload). The custom resource used the new Chef 12.5 customer resource format and the compat_resource cookbook for compatibility with 12.0+
 
 ## v1.1.0
 
