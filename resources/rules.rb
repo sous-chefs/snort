@@ -15,7 +15,7 @@ action :create do
   end
 end
 
-action_class.class_eval do
+action_class do
   def rules_url
     return new_resource.override_url unless new_resource.override_url.nil?
 

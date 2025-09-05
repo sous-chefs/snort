@@ -3,6 +3,7 @@
 This file is used to list changes made in each version of the snort cookbook.
 
 ## Unreleased
+- Cookstyle auto-corrections applied on 2025-04-14
 
 ## 5.0.12 - *2025-09-04*
 

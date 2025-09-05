@@ -69,7 +69,7 @@ action :compile do
   end
 end
 
-action_class.class_eval do
+action_class do
   def daq_path
     "#{Chef::Config[:file_cache_path]}/daq"
   end

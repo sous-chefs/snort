@@ -2,7 +2,7 @@ property :options, Array, default: ['-q']
 
 action :start do
   create_init
-  cleanup_old_service if node['init_package'] == 'systemd'
+  cleanup_old_service if systemd?
 
   service svc_name do
     supports status: true, restart: true
@@ -15,7 +15,7 @@ action :stop do
     supports status: true
     action :stop
     only_if { ::File.exist?("/etc/init/#{svc_name}.conf") } if node['init_package'] == 'init'
-    only_if { ::File.exist?("/etc/systemd/system/#{svc_name}.service") } if node['init_package'] == 'systemd'
+    only_if { ::File.exist?("/etc/systemd/system/#{svc_name}.service") } if systemd?
   end
 end
 
@@ -27,7 +27,7 @@ action :restart do
 end
 
 action :enable do
-  cleanup_old_service if node['init_package'] == 'systemd'
+  cleanup_old_service if systemd?
   create_init
 
   service svc_name do
@@ -41,13 +41,13 @@ action :disable do
     supports status: true
     action :disable
     only_if { ::File.exist?("/etc/init/tomcat_#{new_resource.instance_name}.conf") } if node['init_package'] == 'init'
-    only_if { ::File.exist?("/etc/systemd/system/#{svc_name}.service") } if node['init_package'] == 'systemd'
+    only_if { ::File.exist?("/etc/systemd/system/#{svc_name}.service") } if systemd?
   end
 end
 
-action_class.class_eval do
+action_class do
   def create_init
-    if node['init_package'] == 'systemd'
+    if systemd?
 
       execute 'Load systemd unit file' do
         command 'systemctl daemon-reload'
