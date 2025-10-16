@@ -4,6 +4,13 @@ This file is used to list changes made in each version of the snort cookbook.
 
 * Cookstyle auto-corrections applied on 2025-04-14
 
+## [5.0.13](https://github.com/sous-chefs/snort/compare/5.0.12...v5.0.13) (2025-10-16)
+
+
+### Bug Fixes
+
+* **ci:** Update workflows to use release pipeline ([#90](https://github.com/sous-chefs/snort/issues/90)) ([c2ef025](https://github.com/sous-chefs/snort/commit/c2ef0252b72dff32eab95b0ff68a63d306fa4dad))
+
 ## 5.0.5 - *2023-06-08*
 
 Standardise files with files in sous-chefs/repo-management
