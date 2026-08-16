@@ -8,8 +8,13 @@ chef_version     '>= 15.0'
 source_url       'https://github.com/sous-chefs/snort'
 issues_url       'https://github.com/sous-chefs/snort/issues'
 
-%w(ubuntu debian redhat centos fedora scientific amazon oracle).each do |os|
-  supports os
-end
+supports 'ubuntu'
+supports 'debian'
+supports 'redhat'
+supports 'centos'
+supports 'fedora'
+supports 'scientific'
+supports 'amazon'
+supports 'oracle'
 
 depends 'yum-epel'
