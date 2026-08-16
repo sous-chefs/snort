@@ -1,3 +1,5 @@
+unified_mode true
+
 property :options, Array, default: ['-q']
 
 action :start do

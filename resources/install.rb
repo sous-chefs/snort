@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+unified_mode true
+
 property :database, String, equal_to: %w(none snort-mysql postgresql pgsql postgres), name_property: true
 property :home_net, [String, nil], default: lazy {
   case node['platform_family']
