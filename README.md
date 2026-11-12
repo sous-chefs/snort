@@ -1,88 +1,70 @@
-# snort Cookbook
+# Snort cookbook
 
-[![Cookbook Version](https://img.shields.io/cookbook/v/snort.svg)](https://supermarket.chef.io/cookbooks/snort)
-[![Build Status](https://img.shields.io/circleci/project/github/sous-chefs/snort/master.svg)](https://circleci.com/gh/sous-chefs/snort)
-[![OpenCollective](https://opencollective.com/sous-chefs/backers/badge.svg)](#backers)
-[![OpenCollective](https://opencollective.com/sous-chefs/sponsors/badge.svg)](#sponsors)
-[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
-
-Installs the SNORT IDS daemon.
-
-## Maintainers
-
-This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of Chef cookbook maintainers working together to maintain important cookbooks. If you’d like to know more please visit [sous-chefs.org](https://sous-chefs.org/) or come chat with us on the Chef Community Slack in [#sous-chefs](https://chefcommunity.slack.com/messages/C2V7B88SF).
+Install and manage [Snort 3](https://snort.org/snort3) with explicit Chef custom
+resources. This is a breaking upgrade from the Snort 2 cookbook. Read
+[migration.md](migration.md) before upgrading an existing sensor.
 
 ## Requirements
 
-### Platforms
+* Chef Infra Client 18 or newer and systemd.
+* Debian 12+, Ubuntu 22.04+, RHEL-compatible 8+, Amazon Linux 2023 and current Fedora.
+* A C++17 toolchain, development packages and sufficient memory to compile Snort.
+* Network access to the distribution repositories, GitHub and snort.org.
 
-- Ubuntu 14.04+
-- RHEL/CentOS, 7.0 and higher only.
-- Fedora
-- Debian 8+
-
-### Chef
-
-- Chef 12.7+
-
-## Resources
-
-### Install
-
-- On Ubuntu systems, the packages from apt are used.
-- On RHEL and Fedora systems, the packages are retrieved directly from the SNORT project site.
-- On Debian the test recipe forces a compiled install.
-
-### Config
-
-Configures `/etc/snort/snort.conf`. We recommend you put your own config in disk using the file resource.
-
-### Rules
-
-Downloads rules for snort.
-
-### Service
-
-Used to setup the `snort_service` for use in other resources.
+The default builds pinned Snort 3.13.2.0, DAQ 3.0.29, libdnet 1.18.2 and zlib 1.4
+into `/opt/snort/3.13.2.0`. Private libraries do not replace system libraries.
+The optional LibML model runtime and Hyperscan are not installed by default.
 
 ## Usage
 
-An example usage pattern can be found in the test cookbook.
+```ruby
+snort_install 'sensor'
+snort_rules 'community' do
+  notifies :restart, 'snort_service[sensor]', :delayed
+end
 
-- Use the `snort_install` to install the package. This also creates the `snort_service` resource which you can use to stop, start & enable the snort service correctly.
+snort_config 'sensor' do
+  home_net '10.0.0.0/8'
+  rules ['/etc/snort/rules/community/snort3-community.rules']
+  notifies :restart, 'snort_service[sensor]', :delayed
+end
 
-RHEL based systems you _must_ use the following resources (optional on Debian based systems).
+snort_service 'sensor' do
+  interface 'eth0' # Choose the sensor's capture interface explicitly.
+  action [:create, :enable, :start]
+end
+```
 
-- Use `snort_config` to configure the system.
-- Use `snort_rules` to install rules. You will need a licence for this.
+Installation alone does not start capture. The generated service runs as the
+`snort` account with packet-capture capabilities. The configuration uses the
+vendor's Snort 3 inspection policy, with explicit network variables and rule files.
 
-Example configs can be found in `test/fixtures/cookbooks/test/`
+## Resources
 
-## References
+* [snort_install](documentation/snort_install.md): install or remove the pinned source build.
+* [snort_compile](documentation/snort_compile.md): configure source builds directly.
+* [snort_config](documentation/snort_config.md): create or delete a Lua configuration.
+* [snort_rules](documentation/snort_rules.md): download and remove named rule sets.
+* [snort_service](documentation/snort_service.md): manage the systemd unit and capture process.
 
-- [SNORT home page](http://www.snort.org)
+To remove a sensor, stop and delete its service, delete the managed rule sets and
+configuration, then remove the installation. Shared build packages, package
+repositories and the `snort` account are retained.
 
-## Contributors
+The public community rules do not require an Oinkcode. Registered and subscriber
+rules require your own credentials and entitlement. This cookbook does not obtain
+subscriptions or redistribute private rules. Use rule archives for Snort 3, not
+the Snort 2 community archive or compiled Snort 2 rules.
 
-This project exists thanks to all the people who [contribute.](https://opencollective.com/sous-chefs/contributors.svg?width=890&button=false)
+## Testing
 
-### Backers
+The default Kitchen suite builds Snort, validates its configuration and community
+rules, starts the service on isolated loopback and verifies that a synthetic PCAP
+triggers a local rule. Two converges check idempotency. The removal suite verifies
+that owned installation, configuration, rules, service and logs are removed.
 
-Thank you to all our backers!
-
-![https://opencollective.com/sous-chefs#backers](https://opencollective.com/sous-chefs/backers.svg?width=600&avatarHeight=40)
-
-### Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
-
-![https://opencollective.com/sous-chefs/sponsor/0/website](https://opencollective.com/sous-chefs/sponsor/0/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/1/website](https://opencollective.com/sous-chefs/sponsor/1/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/2/website](https://opencollective.com/sous-chefs/sponsor/2/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/3/website](https://opencollective.com/sous-chefs/sponsor/3/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/4/website](https://opencollective.com/sous-chefs/sponsor/4/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/5/website](https://opencollective.com/sous-chefs/sponsor/5/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/6/website](https://opencollective.com/sous-chefs/sponsor/6/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/7/website](https://opencollective.com/sous-chefs/sponsor/7/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/8/website](https://opencollective.com/sous-chefs/sponsor/8/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/9/website](https://opencollective.com/sous-chefs/sponsor/9/avatar.svg?avatarHeight=100)
+```shell
+chef install Policyfile.rb
+chef exec rspec
+KITCHEN_LOCAL_YAML=kitchen.dokken.yml chef exec kitchen test default-ubuntu-2404 --destroy=always
+```

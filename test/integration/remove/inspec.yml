@@ -1,0 +1,7 @@
+name: snort-remove
+title: Snort 3 remove acceptance
+summary: Verify the Snort 3 remove lifecycle in an isolated container.
+maintainer: Sous Chefs
+copyright: Sous Chefs
+license: Apache-2.0
+version: 1.0.0
