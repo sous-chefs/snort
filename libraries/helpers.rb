@@ -54,7 +54,8 @@ module SnortCookbook
     end
 
     def build_signature
-      Digest::SHA256.hexdigest(['1', *source_components.values.map(&:last)].join(':'))
+      correction = new_resource.version == '3.13.2.0' ? 'appid-linkage-1' : 'upstream'
+      Digest::SHA256.hexdigest(['2', correction, *source_components.values.map(&:last), node['platform'], node['platform_version'], *new_resource.build_dependencies].join(':'))
     end
   end
 end

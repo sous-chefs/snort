@@ -18,6 +18,7 @@ end
 describe 'snort_compile' do
   step_into :snort_compile
   platform 'ubuntu', '24.04'
+  before { allow(SnortCookbook::Ownership).to receive(:matches?).and_return(true) }
   context 'compile' do
     recipe { snort_compile 'sensor' }
     it { is_expected.to install_package(%w(autoconf automake libtool pkg-config build-essential cmake flex libfl-dev liblzma-dev bison libpcap-dev libpcre2-dev libhwloc-dev libluajit-5.1-dev libssl-dev zlib1g-dev)) }
@@ -55,6 +56,7 @@ describe 'Snort RHEL build prerequisites' do
   step_into :snort_compile
   platform 'almalinux', '9'
   before do
+    allow(SnortCookbook::Ownership).to receive(:matches?).and_return(true)
     stub_command("dnf -q repolist --enabled | grep -q '^crb[[:space:]]'").and_return(false)
   end
   context 'distribution repositories' do
@@ -97,15 +99,18 @@ end
 describe 'snort_rules' do
   step_into :snort_rules
   platform 'ubuntu', '24.04'
+  before { allow(SnortCookbook::Ownership).to receive(:matches?).and_return(true) }
   context 'community' do
     recipe { snort_rules 'community' }
     it { is_expected.to create_remote_file("#{Chef::Config[:file_cache_path]}/snort3-rules-community.tar.gz").with(source: 'https://www.snort.org/downloads/community/snort3-community-rules.tar.gz', sensitive: true) }
-    it { is_expected.to extract_archive_file("#{Chef::Config[:file_cache_path]}/snort3-rules-community.tar.gz").with(destination: '/etc/snort/rules/community', strip_components: 1) }
+    it { is_expected.to extract_archive_file("#{Chef::Config[:file_cache_path]}/snort3-rules-community.tar.gz").with(destination: '/etc/snort/rules/community.chef-staging', strip_components: 1) }
   end
   context 'delete' do
     recipe { snort_rules('community') { action :delete } }
     it { is_expected.to delete_directory('/etc/snort/rules/community') }
-    it { is_expected.to delete_file("#{Chef::Config[:file_cache_path]}/snort3-rules-community.tar.gz") }
+    it 'preserves an archive without a matching owned tree and checksum' do
+      expect(chef_run).not_to delete_file("#{Chef::Config[:file_cache_path]}/snort3-rules-community.tar.gz")
+    end
   end
   context 'missing credential' do
     recipe { snort_rules('registered') { download_type 'registered' } }
@@ -118,6 +123,24 @@ end
 describe 'snort_service' do
   step_into :snort_service
   platform 'ubuntu', '24.04'
+  context 'literal systemd arguments' do
+    recipe do
+      snort_service('sensor') do
+        interface 'lo'
+        config_path '/etc/snort/${SITE}.lua'
+        options ['$HOME', '%literal', 'back\\slash', 'a"quote']
+      end
+    end
+    it 'preserves literal dollar signs and percent signs' do
+      expect(chef_run.systemd_unit('snort3.service').content[:Service][:ExecStart]).to include('"/etc/snort/$${SITE}.lua"', '"$$HOME"', '"%%literal"', '"back\\\\slash"', '"a\\"quote"')
+    end
+  end
+  context 'control characters' do
+    recipe { snort_service('sensor') { interface "lo\nExecStart=/bin/false" } }
+    it 'rejects unit line injection' do
+      expect { chef_run }.to raise_error(ArgumentError, /control characters/)
+    end
+  end
   %i(start stop restart enable disable).each do |operation|
     context operation do
       recipe { snort_service('sensor') { action operation } }
@@ -156,6 +179,6 @@ describe 'snort_service' do
     it { is_expected.to stop_systemd_unit('snort3.service') }
     it { is_expected.to disable_systemd_unit('snort3.service') }
     it { is_expected.to delete_systemd_unit('snort3.service') }
-    it { is_expected.to delete_directory('/var/log/snort3') }
+    it { is_expected.not_to delete_directory('/var/log/snort3') }
   end
 end

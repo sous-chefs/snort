@@ -32,3 +32,7 @@ snort_install 'sensor' do
   action :create
 end
 ```
+
+Removal uses an ownership manifest of file hashes, symlink targets and directory names. Creation refuses pre-existing populated directories without a matching manifest. Removal preserves an entire tree if files were added, removed or changed outside this cookbook, or ownership cannot be proved. Inspect and archive such content before removing it manually. An interrupted first installation may require manual recovery; the cookbook does not adopt its partial tree.
+
+Ownership also requires trusted UID/permissions on the tree, receipt and ancestors. Receipts are bound to the canonical path and directory identity; copying a receipt does not adopt another directory.

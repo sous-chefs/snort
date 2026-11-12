@@ -61,7 +61,7 @@ the Snort 2 community archive or compiled Snort 2 rules.
 The default Kitchen suite builds Snort, validates its configuration and community
 rules, starts the service on isolated loopback and verifies that a synthetic PCAP
 triggers a local rule. Two converges check idempotency. The removal suite verifies
-that owned installation, configuration, rules, service and logs are removed.
+that unchanged owned installation, configuration, rules and service artifacts are removed while operator files and logs survive.
 
 ```shell
 chef install Policyfile.rb

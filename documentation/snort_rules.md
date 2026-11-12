@@ -28,3 +28,9 @@ snort_rules 'community'
 
 Use your own entitlement and secret store for registered/subscriber rules. The
 resource hides download URLs from Chef logs. It does not obtain subscriptions.
+
+Removal uses an ownership manifest of file hashes, symlink targets and directory names. Creation refuses pre-existing populated directories without a matching manifest. Removal preserves an entire tree if files were added, removed or changed outside this cookbook, or ownership cannot be proved. Inspect and archive such content before removing it manually. An interrupted first installation may require manual recovery; the cookbook does not adopt its partial tree.
+
+Updates extract into a guarded staging directory and require a non-empty rules payload before replacing the unchanged owned tree. Failed extraction preserves the installed rules. Failed receipt binding rolls back promotion. Inspect interrupted staging or backup directories manually before retrying.
+
+Ownership also requires trusted UID/permissions on the tree, receipt and ancestors. Receipts are bound to the canonical path and directory identity; copying a receipt does not adopt another directory.

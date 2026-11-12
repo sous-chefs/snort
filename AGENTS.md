@@ -50,3 +50,11 @@ Sources: <https://github.com/snort3/snort3>,
 * The vendor base policy initialises eight protected server network variables
   from its initial HOME_NET. Reset those aliases when applying home_net in the
   wrapper. Positive and negative PCAP controls verify the actual rule scope.
+
+Review findings: never recursively remove unowned or subsequently changed trees. Ownership snapshots guard prefix, source cache and rule extraction; logs are retained when non-empty. Debian 13 and Ubuntu 26.04 images require /usr/lib/systemd/systemd rather than the removed /bin/systemd alias.
+
+Ownership receipts require the converging UID, private marker permissions, trusted non-writable ancestors and the exact canonical path/device/inode. Atomic receipt writes refuse marker symlinks. Rules extract and validate in a new staging tree before promotion; receipt rebinding failures roll back the previous tree. Interrupted unowned staging trees require manual inspection, never automatic adoption.
+
+Snort 3.13.2.0 marks appid_log inline only in appid_debug.cc despite external callers. GCC 16 omits its symbol and Fedora fails to link. Remove that qualifier only for this exact version and the verified file SHA-256 b7510d4d5ecdbd848f7342d78e7d35a13dddc824edbe89a77edd0e2252626fea; do not patch unrelated versions. The build signature includes this correction, OS version and explicit dependency list. See <https://github.com/snort3/snort3/blob/3.13.2.0/src/network_inspectors/appid/appid_debug.cc> and <https://gcc.gnu.org/onlinedocs/gcc/Inline.html>.
+
+Systemd expands dollar variables even inside quotes. Encode literal dollars as double dollars, double percent specifiers and backslashes, escape quotes and standalone semicolons, and reject control characters. See <https://github.com/systemd/systemd/blob/main/man/systemd.service.xml>.

@@ -11,6 +11,12 @@ action :compile do
     raise ArgumentError, 'Explicit SHA-256 checksums are required when compiling non-default source versions'
   end
   signature = build_signature
+  [prefix, source_cache].each do |path|
+    ruby_block "check Snort ownership #{path}" do
+      block { SnortCookbook::Ownership.prepare!(path) }
+      not_if { SnortCookbook::Ownership.matches?(path) }
+    end
+  end
   if platform_family?('rhel') && new_resource.enable_build_repositories
     repository_id = build_repository_id
     if platform?('redhat')
@@ -49,6 +55,17 @@ action :compile do
     end
   end
 
+  appid_source = "#{source_cache}/snort/src/network_inspectors/appid/appid_debug.cc"
+  ruby_block 'correct Snort 3.13.2.0 AppID linkage' do
+    block do
+      unless Digest::SHA256.file(appid_source).hexdigest == 'b7510d4d5ecdbd848f7342d78e7d35a13dddc824edbe89a77edd0e2252626fea'
+        raise ArgumentError, 'Unexpected Snort AppID source; refusing to apply the version-specific linkage correction'
+      end
+      ::File.write(appid_source, ::File.read(appid_source).sub("\ninline void appid_log(", "\nvoid appid_log("))
+    end
+    only_if { new_resource.version == '3.13.2.0' && ::File.file?(appid_source) && ::File.read(appid_source).include?("\ninline void appid_log(") }
+  end
+
   bash "build Snort #{new_resource.version} and DAQ #{new_resource.daq_version}" do
     cwd source_cache
     environment('PKG_CONFIG_PATH' => "#{prefix}/lib/pkgconfig")
@@ -76,6 +93,12 @@ action :compile do
     SH
     not_if { ::File.exist?("#{prefix}/bin/snort") && ::File.exist?("#{prefix}/.chef-source-checksums") && ::File.read("#{prefix}/.chef-source-checksums") == signature }
   end
+  [prefix, source_cache].each do |path|
+    ruby_block "record Snort ownership #{path}" do
+      block { SnortCookbook::Ownership.record!(path) }
+      not_if { SnortCookbook::Ownership.matches?(path) }
+    end
+  end
 end
 
 action :remove do
@@ -83,6 +106,7 @@ action :remove do
     directory path do
       recursive true
       action :delete
+      only_if { SnortCookbook::Ownership.matches?(path) }
     end
   end
   %w(/opt/snort /var/cache/snort3).each do |path|
