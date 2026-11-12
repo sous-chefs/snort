@@ -6,7 +6,7 @@ require_relative '../../libraries/ownership'
 
 describe SnortCookbook::Ownership do
   around do |example|
-    Dir.mktmpdir('snort-ownership') do |path|
+    Dir.mktmpdir('snort-ownership', Dir.home) do |path|
       @path = File.realpath(path)
       example.run
     end
@@ -42,7 +42,7 @@ describe SnortCookbook::Ownership do
   it 'does not trust a receipt copied to an identical different directory' do
     File.write("#{@path}/managed", 'installed')
     described_class.record!(@path)
-    Dir.mktmpdir('snort-copy') do |copy|
+    Dir.mktmpdir('snort-copy', Dir.home) do |copy|
       FileUtils.cp_r(Dir.glob("#{@path}/*", File::FNM_DOTMATCH).reject { |entry| %w(. ..).include?(File.basename(entry)) }, copy)
       expect(described_class.matches?(File.realpath(copy))).to be false
     end
