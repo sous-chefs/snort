@@ -1,26 +1,103 @@
 ---
 driver:
-  name: vagrant
-
+  name: dokken
+  privileged: true
+  chef_image: cincproject/cinc
+  chef_version: latest
+transport:
+  name: dokken
 provisioner:
-  name: chef_zero
-  product_name: chef
-  product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
-  install_strategy: once
+  name: dokken
+  product_name: cinc
+  policyfile: Policyfile.rb
+  multiple_converge: 2
+  enforce_idempotency: true
   deprecations_as_errors: true
-
 verifier:
   name: inspec
-
 platforms:
-  - name: centos-7
-  - name: debian-8
-  - name: debian-9
-  - name: fedora-27
-  - name: ubuntu-14.04
-  - name: ubuntu-16.04
-
+  - name: almalinux-8
+    driver:
+      image: dokken/almalinux-8
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: almalinux-9
+    driver:
+      image: dokken/almalinux-9
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: almalinux-10
+    driver:
+      image: dokken/almalinux-10
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: amazonlinux-2023
+    driver:
+      image: dokken/amazonlinux-2023
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: centos-stream-9
+    driver:
+      image: dokken/centos-stream-9
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: centos-stream-10
+    driver:
+      image: dokken/centos-stream-10
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: debian-12
+    driver:
+      image: dokken/debian-12
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: debian-13
+    driver:
+      image: dokken/debian-13
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: fedora-latest
+    driver:
+      image: dokken/fedora-latest
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: oraclelinux-8
+    driver:
+      image: dokken/oraclelinux-8
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: oraclelinux-9
+    driver:
+      image: dokken/oraclelinux-9
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: oraclelinux-10
+    driver:
+      image: dokken/oraclelinux-10
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: rockylinux-8
+    driver:
+      image: dokken/rockylinux-8
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: rockylinux-9
+    driver:
+      image: dokken/rockylinux-9
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: rockylinux-10
+    driver:
+      image: dokken/rockylinux-10
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: ubuntu-22.04
+    driver:
+      image: dokken/ubuntu-22.04
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: ubuntu-24.04
+    driver:
+      image: dokken/ubuntu-24.04
+      pid_one_command: /usr/lib/systemd/systemd
+  - name: ubuntu-26.04
+    driver:
+      image: dokken/ubuntu-26.04
+      pid_one_command: /usr/lib/systemd/systemd
 suites:
   - name: default
-    run_list:
-      - recipe[test::default]
+    provisioner:
+      named_run_list: default
+    verifier:
+      inspec_tests: [test/integration/default]
+  - name: remove
+    provisioner:
+      named_run_list: remove
+      multiple_converge: 1
+      enforce_idempotency: false
+    verifier:
+      inspec_tests: [test/integration/remove]

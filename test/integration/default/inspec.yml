@@ -1,0 +1,7 @@
+name: snort-default
+title: Snort 3 default acceptance
+summary: Verify the Snort 3 default lifecycle in an isolated container.
+maintainer: Sous Chefs
+copyright: Sous Chefs
+license: Apache-2.0
+version: 1.0.0

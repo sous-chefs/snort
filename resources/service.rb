@@ -1,91 +1,81 @@
+# frozen_string_literal: true
+
+unified_mode true
+provides :snort_service
+
+property :service_name, String, default: 'snort3', callbacks: { 'must contain only letters, numbers, underscores or hyphens' => proc { |value| value.match?(/\A[a-zA-Z0-9_-]+\z/) } }
+property :prefix, String, default: "/opt/snort/#{SnortCookbook::VERSION}"
+property :config_path, String, default: '/etc/snort/snort.lua'
+property :interface, String
+property :log_dir, String, default: '/var/log/snort3'
 property :options, Array, default: ['-q']
 
-action :start do
-  create_init
-  cleanup_old_service if systemd?
-
-  service svc_name do
-    supports status: true, restart: true
-    action :start
+action :create do
+  raise ArgumentError, 'interface is required when creating a capture service' if !new_resource.interface || new_resource.interface.empty?
+  log_path = owned_log_directory!
+  arguments = ["#{new_resource.prefix}/bin/snort", '-c', new_resource.config_path, '-i', new_resource.interface, '-l', new_resource.log_dir] + new_resource.options
+  raise ArgumentError, 'Service arguments must not contain control characters' if arguments.any? { |arg| arg.to_s.match?(/[[:cntrl:]]/) }
+  group 'snort' do
+    system true
+  end
+  user 'snort' do
+    gid 'snort'
+    system true
+    shell '/usr/sbin/nologin'
+  end
+  directory log_path do
+    owner 'snort'
+    group 'snort'
+    mode '0750'
+    recursive true
+  end
+  systemd_unit "#{new_resource.service_name}.service" do
+    content({
+              Unit: { Description: 'Snort 3 intrusion detection', After: 'network-online.target', Wants: 'network-online.target' },
+              Service: {
+                Type: 'simple', User: 'snort', Group: 'snort',
+                ExecStart: arguments.map { |arg| systemd_argument(arg) }.join(' '),
+                AmbientCapabilities: 'CAP_NET_RAW CAP_NET_ADMIN', CapabilityBoundingSet: 'CAP_NET_RAW CAP_NET_ADMIN',
+                NoNewPrivileges: true, Restart: 'on-failure'
+              },
+              Install: { WantedBy: 'multi-user.target' },
+            })
+    action :create
   end
 end
 
-action :stop do
-  service svc_name do
-    supports status: true
-    action :stop
-    only_if { ::File.exist?("/etc/init/#{svc_name}.conf") } if node['init_package'] == 'init'
-    only_if { ::File.exist?("/etc/systemd/system/#{svc_name}.service") } if systemd?
+%i(start stop restart enable disable).each do |service_action|
+  action service_action do
+    systemd_unit "#{new_resource.service_name}.service" do
+      action service_action
+    end
   end
 end
 
-action :restart do
-  service svc_name do
-    action :restart
-    supports status: true, restart: true
+action :delete do
+  log_path = owned_log_directory!
+  systemd_unit "#{new_resource.service_name}.service" do
+    action [:stop, :disable, :delete]
   end
-end
-
-action :enable do
-  cleanup_old_service if systemd?
-  create_init
-
-  service svc_name do
-    supports status: true
-    action :enable
-  end
-end
-
-action :disable do
-  service svc_name do
-    supports status: true
-    action :disable
-    only_if { ::File.exist?("/etc/init/tomcat_#{new_resource.instance_name}.conf") } if node['init_package'] == 'init'
-    only_if { ::File.exist?("/etc/systemd/system/#{svc_name}.service") } if systemd?
+  directory log_path do
+    action :delete
+    only_if { !::File.symlink?(log_path) && ::Dir.exist?(log_path) && ::Dir.empty?(log_path) }
   end
 end
 
 action_class do
-  def create_init
-    if systemd?
-
-      execute 'Load systemd unit file' do
-        command 'systemctl daemon-reload'
-        action :nothing
-      end
-
-      template "/etc/systemd/system/#{svc_name}.service" do
-        source 'init_systemd.erb'
-        cookbook 'snort'
-        variables options: new_resource.options
-        notifies :run, 'execute[Load systemd unit file]', :immediately
-      end
-    else
-      template "/etc/init/#{svc_name}.conf" do
-        source 'init_upstart.erb'
-        cookbook 'snort'
-        variables options: new_resource.options
-      end
-    end
+  def systemd_argument(argument)
+    value = argument.to_s
+    return '\\;' if value == ';'
+    escaped = value.gsub(/[\\"%$]/) { |char| { '\\' => '\\\\', '"' => '\\"', '%' => '%%', '$' => '$$' }.fetch(char) }
+    '"' + escaped + '"'
   end
 
-  def cleanup_old_service
-    return unless ::File.exist?('/etc/init.d/snort')
-    service 'disable sys-v init snort' do
-      service_name svc_name
-      action [:stop, :disable]
+  def owned_log_directory!
+    path = ::File.expand_path(new_resource.log_dir)
+    if !new_resource.log_dir.start_with?('/') || new_resource.log_dir.include?('..') || %w(/ /var /var/log /usr /usr/local /opt /etc /home /root /tmp /var/tmp).include?(path)
+      raise ArgumentError, 'log_dir must be a dedicated log directory'
     end
-
-    file '/etc/init.d/snort' do
-      action :delete
-    end
-  end
-
-  def svc_name
-    if platform_family?('debian')
-      'snort'
-    else
-      'snortd'
-    end
+    path
   end
 end

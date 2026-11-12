@@ -1,0 +1,9 @@
+-- Managed by Chef. Use the vendor inspection policy, then set site variables.
+include <%= (@prefix + '/etc/snort/snort.lua').dump %>
+ips.variables.nets.HOME_NET = <%= @home_net.dump %>
+for _, server in ipairs({ 'DNS_SERVERS', 'FTP_SERVERS', 'HTTP_SERVERS', 'SIP_SERVERS', 'SMTP_SERVERS', 'SQL_SERVERS', 'SSH_SERVERS', 'TELNET_SERVERS' }) do
+    ips.variables.nets[server] = ips.variables.nets.HOME_NET
+end
+ips.variables.nets.EXTERNAL_NET = <%= @external_net.dump %>
+ips.rules = <%= (@rules.map { |path| "include #{path}" }.join("\n") + "\n").dump %>
+alert_fast = { file = true }
